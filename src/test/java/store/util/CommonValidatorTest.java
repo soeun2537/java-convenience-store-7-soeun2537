@@ -179,4 +179,16 @@ class CommonValidatorTest {
         assertThatCode(() -> CommonValidator.validateDate(input))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Date: 다른 문자 - 예외 테스트")
+    void validateDate_anotherCharacter() {
+        // given
+        String input = "aaa";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateDate(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
