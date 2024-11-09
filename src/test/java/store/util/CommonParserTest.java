@@ -96,4 +96,18 @@ class CommonParserTest {
         // then
         assertThat(parseDate).isEqualTo(expectedDate);
     }
+
+    @Test
+    @DisplayName("입력 문자열을 날짜로 변환하는지 확인: 한 자리 숫자")
+    void parseDate_singleDigit() {
+        // given
+        String input = "2024-11-9";
+        LocalDate expectedDate = LocalDate.of(2024, 11, 9);
+
+        // when
+        LocalDate parseDate = CommonParser.parseDate(input);
+
+        // then
+        assertThat(parseDate).isEqualTo(expectedDate);
+    }
 }
