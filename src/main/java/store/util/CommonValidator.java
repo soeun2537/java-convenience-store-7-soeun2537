@@ -1,6 +1,7 @@
 package store.util;
 
 import static store.constant.ErrorMessage.*;
+import static store.constant.InputConstant.*;
 
 public class CommonValidator {
 
@@ -9,6 +10,12 @@ public class CommonValidator {
 
     public static void validateNotNull(String input) {
         if (input == null || input.isBlank()) {
+            throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
+        }
+    }
+
+    public static void validateNumeric(String input) {
+        if (!input.matches(NUMERIC_PATTERN.getContent())) {
             throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
         }
     }
