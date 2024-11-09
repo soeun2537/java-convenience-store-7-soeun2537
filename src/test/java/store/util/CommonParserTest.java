@@ -2,6 +2,7 @@ package store.util;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,5 +81,19 @@ class CommonParserTest {
         // then
         assertThat(parseUpperBoolean).isFalse();
         assertThat(parseLowerBoolean).isFalse();
+    }
+
+    @Test
+    @DisplayName("입력 문자열을 날짜로 변환하는지 확인")
+    void parseDate() {
+        // given
+        String input = "2024-11-09";
+        LocalDate expectedDate = LocalDate.of(2024, 11, 9);
+
+        // when
+        LocalDate parseDate = CommonParser.parseDate(input);
+
+        // then
+        assertThat(parseDate).isEqualTo(expectedDate);
     }
 }
