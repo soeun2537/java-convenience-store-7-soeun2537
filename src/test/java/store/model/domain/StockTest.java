@@ -124,4 +124,17 @@ class StockTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("재고 차감: 초과 - 예외 테스트")
+    void reduceQuantity_excessiveQuantity() {
+        // given
+        Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Integer addQuantity = -11;
+
+        // when & then
+        assertThatThrownBy(() -> stock.reduceQuantity(addQuantity))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
