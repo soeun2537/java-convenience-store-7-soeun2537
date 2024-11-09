@@ -53,4 +53,15 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Numeric - 성공 테스트")
+    void validateNumeric_success() {
+        // given
+        String input = "12";
+
+        // when & then
+        assertThatCode(() -> CommonValidator.validateNumeric(input))
+                .doesNotThrowAnyException();
+    }
 }
