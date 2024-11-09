@@ -1,5 +1,7 @@
 package store.model;
 
+import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,5 +39,13 @@ public class PromotionManager {
 
     public List<Promotion> getPromotions() {
         return Collections.unmodifiableList(promotions);
+    }
+
+    public boolean validateWithinPeriod(Promotion promotion) {
+        LocalDate today = DateTimes.now().toLocalDate();
+        LocalDate startDate = promotion.getStartDate();
+        LocalDate endDate = promotion.getEndDate();
+
+        return !today.isBefore(startDate) && !today.isAfter(endDate);
     }
 }
