@@ -51,6 +51,11 @@ public class OutputView {
         println(MEMBERSHIP_APPLICATION_STATUS_GUIDANCE.getMessage());
     }
 
+    public static void printAdditionalPurchaseStatusGuidance() {
+        printNewLine();
+        println(ADDITIONAL_PURCHASE_STATUS_GUIDANCE.getMessage());
+    }
+
     private static void println(String content) {
         System.out.println(content);
     }
