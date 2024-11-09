@@ -17,11 +17,6 @@ public class Stock {
         return new Stock(product, quantity);
     }
 
-    // TODO: 사용 파악
-    public static Stock of(Product product, Integer quantity) {
-        return new Stock(product, quantity);
-    }
-
     public void addQuantity(Integer addedQuantity) {
         CommonValidator.validateNonNegative(addedQuantity);
         this.quantity += addedQuantity;
