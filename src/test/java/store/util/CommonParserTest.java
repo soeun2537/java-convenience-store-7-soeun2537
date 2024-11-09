@@ -49,4 +49,20 @@ class CommonParserTest {
         // then
         assertThat(convertedInput).isEqualTo(2024);
     }
+
+    @Test
+    @DisplayName("입력 문자열을 boolean으로 변환하는지 확인: true")
+    void parseBoolean_true() {
+        // given
+        String upperInput = "Y";
+        String lowerInput = "y";
+
+        // when
+        boolean parseUpperBoolean = CommonParser.parseBoolean(upperInput);
+        boolean parseLowerBoolean = CommonParser.parseBoolean(lowerInput);
+
+        // then
+        assertThat(parseUpperBoolean).isTrue();
+        assertThat(parseLowerBoolean).isTrue();
+    }
 }
