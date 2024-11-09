@@ -42,4 +42,18 @@ class StockTest {
         assertThat(stock.getQuantity()).isEqualTo(10);
         assertThat(stock.getPromotionName()).isEqualTo("탄산2+1");
     }
+
+    @Test
+    @DisplayName("Stock 재고 추가 - 성공 테스트")
+    void addQuantity() {
+        // given
+        Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Integer addQuantity = 3;
+
+        // when
+        stock.addQuantity(addQuantity);
+
+        // then
+        assertThat(stock.getQuantity()).isEqualTo(13);
+    }
 }
