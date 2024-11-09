@@ -3,6 +3,8 @@ package store.view;
 import static store.constant.OutputMessage.*;
 
 import java.util.List;
+import store.dto.response.ReceiptResponse;
+import store.dto.response.ReceiptResponse.InnerReceiptStockResponse;
 import store.dto.response.StocksResponse;
 import store.dto.response.StocksResponse.InnerStockResponse;
 
@@ -27,6 +29,11 @@ public class OutputView {
                     stockResponse.getPromotionName()
             ));
         }
+    }
+
+    public static void printPurchaseProductsGuidance() {
+        printNewLine();
+        println(PURCHASE_PRODUCTS_GUIDANCE.getMessage());
     }
 
     private static void println(String content) {
