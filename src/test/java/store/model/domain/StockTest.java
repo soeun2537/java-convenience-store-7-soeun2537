@@ -25,4 +25,21 @@ class StockTest {
         assertThat(stock.getQuantity()).isEqualTo(10);
         assertThat(stock.getPromotionName()).isEqualTo("탄산2+1");
     }
+
+    @Test
+    @DisplayName("Stock 생성: Product, quantity 속성 - 성공 테스트")
+    void of_ProductAndQuantityAttribute() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 10;
+
+        // when
+        Stock stock = Stock.of(product, quantity);
+
+        // then
+        assertThat(stock.getProductName()).isEqualTo("콜라");
+        assertThat(stock.getProductPrice()).isEqualTo(1000);
+        assertThat(stock.getQuantity()).isEqualTo(10);
+        assertThat(stock.getPromotionName()).isEqualTo("탄산2+1");
+    }
 }
