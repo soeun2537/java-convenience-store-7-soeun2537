@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import store.constant.TestPathConstant;
 
 class MarkdownFileReaderTest {
 
@@ -12,7 +13,7 @@ class MarkdownFileReaderTest {
     @DisplayName("MarkDown 파일 읽어오기 - 성공 테스트")
     void readFile_success() {
         // given
-        String resourcePath = "/test.md";
+        String resourcePath = TestPathConstant.PRODUCT_FILE_PATH.getPath();
         List<String> expectedLines = List.of(
                 "콜라,1000,10,탄산2+1",
                 "콜라,1000,10,null",
