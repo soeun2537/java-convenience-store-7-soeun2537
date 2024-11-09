@@ -11,6 +11,7 @@ import store.constant.TestPathConstant;
 import store.model.PromotionManager;
 import store.model.StockManager;
 import store.model.domain.Promotion;
+import store.model.domain.Stock;
 
 class InventoryServiceTest {
 
@@ -41,5 +42,22 @@ class InventoryServiceTest {
         assertThat(promotion.getGiftCount()).isEqualTo(1);
         assertThat(promotion.getStartDate()).isEqualTo(LocalDate.of(2024, 1, 1));
         assertThat(promotion.getEndDate()).isEqualTo(LocalDate.of(2024, 12, 31));
+    }
+
+    @Test
+    @DisplayName("파일을 통해 재고 설정")
+    void setupStocks() {
+        // when
+        inventoryService.setupStocks(TestPathConstant.PRODUCT_FILE_PATH.getPath());
+
+        // then
+        List<Stock> stocks = stockManager.getStocks();
+        assertThat(stocks).isNotEmpty();
+
+        Stock stock = stocks.get(0);
+        assertThat(stock.getProduct().getName()).isEqualTo("콜라");
+        assertThat(stock.getProduct().getPrice()).isEqualTo(1000);
+        assertThat(stock.getQuantity()).isEqualTo(10);
+        assertThat(stock.getProduct().getPromotionName()).isEqualTo("탄산2+1");
     }
 }
