@@ -1,6 +1,7 @@
 package store.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import store.model.domain.Promotion;
@@ -32,5 +33,9 @@ public class PromotionManager {
             }
         }
         return Optional.empty();
+    }
+
+    public List<Promotion> getPromotions() {
+        return Collections.unmodifiableList(promotions);
     }
 }
