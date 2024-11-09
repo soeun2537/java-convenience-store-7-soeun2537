@@ -83,4 +83,18 @@ class StockTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("재고 차감 - 성공 테스트")
+    void reduceQuantity() {
+        // given
+        Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Integer addQuantity = 3;
+
+        // when
+        stock.reduceQuantity(addQuantity);
+
+        // then
+        assertThat(stock.getQuantity()).isEqualTo(7);
+    }
 }
