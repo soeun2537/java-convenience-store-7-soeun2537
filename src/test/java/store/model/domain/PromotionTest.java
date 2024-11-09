@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class PromotionTest {
 
     @Test
-    @DisplayName("Promotion 생성: 모든 속성 - 성공 테스트")
+    @DisplayName("Promotion 생성 - 성공 테스트")
     void of() {
         // given
         String name = "탄산2+1";
