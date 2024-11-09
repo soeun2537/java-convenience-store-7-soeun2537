@@ -46,6 +46,11 @@ public class OutputView {
         println(REGULAR_PRICE_PAYMENT_STATUS_GUIDANCE.getMessage(productName, productQuantity));
     }
 
+    public static void printMembershipApplicationStatusGuidance() {
+        printNewLine();
+        println(MEMBERSHIP_APPLICATION_STATUS_GUIDANCE.getMessage());
+    }
+
     private static void println(String content) {
         System.out.println(content);
     }
