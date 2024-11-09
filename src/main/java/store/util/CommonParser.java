@@ -21,4 +21,8 @@ public class CommonParser {
     public static Integer convertStringToInteger(String input) {
         return Integer.parseInt(input);
     }
+
+    public static boolean parseBoolean(String input) {
+        return TRUE_STRING.getContent().equalsIgnoreCase(input);
+    }
 }
