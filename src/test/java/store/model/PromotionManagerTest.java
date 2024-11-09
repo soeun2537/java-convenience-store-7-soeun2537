@@ -41,4 +41,17 @@ class PromotionManagerTest {
         assertThat(findPromotion.get().getStartDate()).isEqualTo(LocalDate.of(2024, 1, 1));
         assertThat(findPromotion.get().getEndDate()).isEqualTo(LocalDate.of(2024, 12, 31));
     }
+
+    @Test
+    @DisplayName("Promotion 추가 및 조회: 없는 프로모션")
+    void addAndFindPromotion_fail() {
+        // given
+        PromotionManager manager = PromotionManager.getInstance();
+
+        // when
+        Optional<Promotion> findPromotion = manager.findPromotion("없는 프로모션");
+
+        // then
+        assertThat(findPromotion).isNotPresent();
+    }
 }
