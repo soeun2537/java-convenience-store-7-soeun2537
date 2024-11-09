@@ -55,9 +55,9 @@ class InventoryServiceTest {
         assertThat(stocks).isNotEmpty();
 
         Stock stock = stocks.get(0);
-        assertThat(stock.getProduct().getName()).isEqualTo("콜라");
-        assertThat(stock.getProduct().getPrice()).isEqualTo(1000);
+        assertThat(stock.getProductName()).isEqualTo("콜라");
+        assertThat(stock.getProductPrice()).isEqualTo(1000);
         assertThat(stock.getQuantity()).isEqualTo(10);
-        assertThat(stock.getProduct().getPromotionName()).isEqualTo("탄산2+1");
+        assertThat(stock.getPromotionName()).isEqualTo("탄산2+1");
     }
 }

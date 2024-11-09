@@ -43,12 +43,11 @@ public class StocksResponse {
         }
 
         private static InnerStockResponse from(Stock stock) {
-            Product product = stock.getProduct();
-            String formattedPromotionName = formatPromotionName(product.getPromotionName());
+            String formattedPromotionName = formatPromotionName(stock.getPromotionName());
 
             return new InnerStockResponse(
-                    product.getName(),
-                    product.getPrice(),
+                    stock.getProductName(),
+                    stock.getProductPrice(),
                     formattedPromotionName,
                     stock.getQuantity());
         }
