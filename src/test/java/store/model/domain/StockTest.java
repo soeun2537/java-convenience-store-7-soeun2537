@@ -97,4 +97,18 @@ class StockTest {
         // then
         assertThat(stock.getQuantity()).isEqualTo(7);
     }
+
+    @Test
+    @DisplayName("재고 차감: 0 - 성공 테스트")
+    void reduceQuantity_zero() {
+        // given
+        Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Integer addQuantity = 0;
+
+        // when
+        stock.reduceQuantity(addQuantity);
+
+        // then
+        assertThat(stock.getQuantity()).isEqualTo(10);
+    }
 }
