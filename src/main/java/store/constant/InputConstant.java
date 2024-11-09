@@ -6,6 +6,7 @@ public enum InputConstant {
     NUMERIC_PATTERN("\\d+"),
     YES_NO_PATTERN("[YyNn]"),
     DATE_PATTERN("^\\d{4}-\\d{2}-\\d{2}$"),
+    PRODUCT_SEPARATOR(","),
     DATE_SEPARATOR("-"),
     TRUE_STRING("Y"),
     EMPTY_STRING(""),
