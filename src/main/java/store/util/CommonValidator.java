@@ -31,4 +31,10 @@ public class CommonValidator {
             throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
         }
     }
+
+    public static void validateNonNegative(Integer input) {
+        if (input < 0) {
+            throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
+        }
+    }
 }
