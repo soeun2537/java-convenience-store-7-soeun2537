@@ -126,4 +126,18 @@ class CommonValidatorTest {
         assertThatCode(() -> CommonValidator.validateYesOrNo(lowerInput))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Yes No: false - 성공 테스트")
+    void validateYesOrNo_false() {
+        // given
+        String upperInput = "N";
+        String lowerInput = "n";
+
+        // when & then
+        assertThatCode(() -> CommonValidator.validateYesOrNo(upperInput))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> CommonValidator.validateYesOrNo(lowerInput))
+                .doesNotThrowAnyException();
+    }
 }
