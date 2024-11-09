@@ -1,4 +1,4 @@
-package store.constant;
+package store.constant.message;
 
 public enum ErrorMessage {
 

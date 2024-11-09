@@ -1,6 +1,6 @@
 package store.util;
 
-import static store.constant.ErrorMessage.*;
+import static store.constant.message.ErrorMessage.*;
 import static store.constant.InputConstant.*;
 
 public class CommonValidator {

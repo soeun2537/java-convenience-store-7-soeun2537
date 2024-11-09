@@ -1,4 +1,4 @@
-package store.constant;
+package store.constant.message;
 
 public enum OutputMessage {
     START_GUIDANCE("안녕하세요. W편의점입니다."),

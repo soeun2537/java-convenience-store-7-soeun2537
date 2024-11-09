@@ -1,6 +1,6 @@
 package store.view;
 
-import static store.constant.OutputMessage.*;
+import static store.constant.message.OutputMessage.*;
 
 import java.util.List;
 import store.dto.response.ReceiptResponse;
