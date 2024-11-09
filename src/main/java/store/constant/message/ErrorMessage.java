@@ -8,6 +8,7 @@ public enum ErrorMessage {
     GENERAL_INVALID_INPUT("잘못된 입력입니다. 다시 입력해 주세요."),
     NOT_FOUND_FILE("파일이 존재하지 않습니다."),
     INVALID_FILE_VALUE("파일의 값이 유효하지 않습니다."),
+    NOT_FOUND_PROMOTION("존재하지 않는 프로모션입니다.")
     ;
 
     private static final String PREFIX = "[ERROR] ";
