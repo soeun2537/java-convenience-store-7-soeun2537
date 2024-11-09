@@ -25,4 +25,10 @@ public class CommonValidator {
             throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
         }
     }
+
+    public static void validateDate(String input) {
+        if (!input.matches(DATE_PATTERN.getContent())) {
+            throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
+        }
+    }
 }
