@@ -3,7 +3,6 @@ package store.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import store.model.domain.Product;
 import store.model.domain.Stock;
 
 public class StockManager {
@@ -28,5 +27,9 @@ public class StockManager {
 
     public List<Stock> getStocks() {
         return Collections.unmodifiableList(stocks);
+    }
+
+    public void clearStocks() {
+        stocks.clear();
     }
 }
