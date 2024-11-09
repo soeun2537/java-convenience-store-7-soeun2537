@@ -191,4 +191,16 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Date: 잘못된 형식 - 예외 테스트")
+    void validateDate_invalidFormat() {
+        // given
+        String input = "2024/11/09";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateDate(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
