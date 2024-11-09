@@ -38,4 +38,19 @@ class StockManagerTest {
         assertThat(stocks).hasSize(2);
         assertThat(stocks).containsExactly(stock1, stock2);
     }
+
+    @Test
+    @DisplayName("Stock 조회: 불변성")
+    void getStocks_immutable() {
+        // given
+        StockManager manager = StockManager.getInstance();
+        Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
+
+        // when
+        List<Stock> stocks = manager.getStocks();
+
+        // then
+        assertThatThrownBy(() -> stocks.add(stock))
+                .isInstanceOf(UnsupportedOperationException.class);
+    }
 }
