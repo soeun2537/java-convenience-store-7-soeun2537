@@ -56,6 +56,46 @@ public class OutputView {
         println(ADDITIONAL_PURCHASE_STATUS_GUIDANCE.getMessage());
     }
 
+    public static void printReceipt(ReceiptResponse response) {
+        printNewLine();
+        println(RECEIPT_TITLE_HEADER.getMessage());
+        printPurchaseProducts(response.getPurchaseStocks());
+        printGiftProducts(response.getGiftStocks());
+        printReceiptSummary(response);
+    }
+
+    private static void printPurchaseProducts(List<InnerReceiptStockResponse> purchaseStocks) {
+        println(RECEIPT_PURCHASE_PRODUCTS_HEADER.getMessage());
+        for (InnerReceiptStockResponse purchaseStock : purchaseStocks) {
+            println(RECEIPT_PURCHASE_PRODUCT_LINE.getMessage(
+                    purchaseStock.getProductName(),
+                    purchaseStock.getQuantity(),
+                    purchaseStock.getTotalPrice()
+            ));
+        }
+    }
+
+    private static void printGiftProducts(List<InnerReceiptStockResponse> giftStocks) {
+        println(RECEIPT_GIFTS_HEADER.getMessage());
+        for (InnerReceiptStockResponse giftStock : giftStocks) {
+            println(RECEIPT_GIFT_LINE.getMessage(
+                    giftStock.getProductName(),
+                    giftStock.getQuantity()
+            ));
+        }
+    }
+
+    private static void printReceiptSummary(ReceiptResponse response) {
+        println(RECEIPT_DIVISION_HEADER.getMessage());
+        println(RECEIPT_TOTAL_PURCHASE_AMOUNT.getMessage(
+                response.getTotalPurchaseQuantity(),
+                response.getTotalPurchaseAmount()
+        ));
+        println(RECEIPT_PROMOTION_DISCOUNT.getMessage(response.getPromotionDiscount()));
+        println(RECEIPT_MEMBERSHIP_DISCOUNT.getMessage(response.getMembershipDiscount()));
+        println(RECEIPT_FINAL_AMOUNT.getMessage(response.getFinalAmount()));
+    }
+
     private static void println(String content) {
         System.out.println(content);
     }
