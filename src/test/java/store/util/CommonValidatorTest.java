@@ -168,4 +168,15 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Date - 성공 테스트")
+    void validateDate() {
+        // given
+        String input = "2024-11-09";
+
+        // when & then
+        assertThatCode(() -> CommonValidator.validateDate(input))
+                .doesNotThrowAnyException();
+    }
 }
