@@ -17,4 +17,8 @@ public class CommonParser {
     public static List<String> separateBySeparator(String input, String separator) {
         return Arrays.asList(input.split(separator));
     }
+
+    public static Integer convertStringToInteger(String input) {
+        return Integer.parseInt(input);
+    }
 }
