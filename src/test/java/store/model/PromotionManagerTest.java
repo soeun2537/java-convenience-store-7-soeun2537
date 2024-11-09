@@ -2,13 +2,13 @@ package store.model;
 
 import static org.assertj.core.api.Assertions.*;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.model.domain.Promotion;
-import store.model.domain.Stock;
 
 class PromotionManagerTest {
 
@@ -71,5 +71,21 @@ class PromotionManagerTest {
         // then
         assertThatThrownBy(() -> promotions.add(promotion))
                 .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
+    @DisplayName("프로모션 기간 내 여부를 확인: true")
+    void validateWithinPeriod_true() {
+        // given
+        PromotionManager promotionManager = PromotionManager.getInstance();
+        Promotion promotion = Promotion.of("프로모션", 2, 1,
+                LocalDate.of(2024, 1, 1),
+                DateTimes.now().toLocalDate().plusDays(1));
+
+        // when
+        boolean result = promotionManager.validateWithinPeriod(promotion);
+
+        // then
+        assertThat(result).isTrue();
     }
 }
