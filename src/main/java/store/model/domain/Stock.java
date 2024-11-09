@@ -1,5 +1,7 @@
 package store.model.domain;
 
+import store.util.CommonValidator;
+
 public class Stock {
 
     private final Product product;
@@ -18,6 +20,11 @@ public class Stock {
     // TODO: 사용 파악
     public static Stock of(Product product, Integer quantity) {
         return new Stock(product, quantity);
+    }
+
+    public void addQuantity(Integer addedQuantity) {
+        CommonValidator.validateNonNegative(addedQuantity);
+        this.quantity += addedQuantity;
     }
 
     public Product getProduct() {
