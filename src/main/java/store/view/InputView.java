@@ -2,6 +2,7 @@ package store.view;
 
 import camp.nextstep.edu.missionutils.Console;
 import store.dto.request.input.AddingQuantityStatusRequest;
+import store.dto.request.input.MembershipApplicationStatusRequest;
 import store.dto.request.input.PurchaseProductsRequest;
 import store.dto.request.input.RegularPricePaymentStatusRequest;
 
@@ -17,6 +18,10 @@ public class InputView {
 
     public static RegularPricePaymentStatusRequest readRegularPricePaymentStatus() {
         return RegularPricePaymentStatusRequest.from(input());
+    }
+
+    public static MembershipApplicationStatusRequest readMembershipApplicationStatus() {
+        return MembershipApplicationStatusRequest.from(input());
     }
 
     private static String input() {
