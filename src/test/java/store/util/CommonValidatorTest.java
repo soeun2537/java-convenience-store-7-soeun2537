@@ -17,4 +17,16 @@ class CommonValidatorTest {
         assertThatCode(() -> CommonValidator.validateNotNull(input))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Not Null: 공백 - 예외 테스트")
+    void validateNotNull_whiteSpace() {
+        // given
+        String input = " ";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateNotNull(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
