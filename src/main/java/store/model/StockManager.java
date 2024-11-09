@@ -25,4 +25,8 @@ public class StockManager {
     public void addStock(Stock stock) {
         stocks.add(stock);
     }
+
+    public List<Stock> getStocks() {
+        return Collections.unmodifiableList(stocks);
+    }
 }
