@@ -41,4 +41,16 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Not Null: null - 예외 테스트")
+    void validateNotNull_null() {
+        // given
+        String input = null;
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateNotNull(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
