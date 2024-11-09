@@ -36,6 +36,11 @@ public class OutputView {
         println(PURCHASE_PRODUCTS_GUIDANCE.getMessage());
     }
 
+    public static void printAddingQuantityStatusGuidance(String productName, Integer productQuantity) {
+        printNewLine();
+        println(ADDING_QUANTITY_STATUS_GUIDANCE.getMessage(productName, productQuantity));
+    }
+
     private static void println(String content) {
         System.out.println(content);
     }
