@@ -156,4 +156,16 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Yes No: 중복 문자 - 예외 테스트")
+    void validateYesOrNo_duplicate() {
+        // given
+        String input = "Yy";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateYesOrNo(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
