@@ -28,4 +28,16 @@ class MarkdownFileReaderTest {
         // then
         assertThat(lines).containsExactlyElementsOf(expectedLines);
     }
+
+    @Test
+    @DisplayName("MarkDown 파일 읽어오기: 없는 파일 - 예외 테스트")
+    void readFile_invalidFile() {
+        // given
+        String resourcePath = "/invalid.md";
+
+        // when & then
+        assertThatThrownBy(() -> MarkdownFileReader.readFile(resourcePath))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
