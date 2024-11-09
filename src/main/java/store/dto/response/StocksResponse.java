@@ -5,6 +5,7 @@ import static store.constant.message.OutputMessage.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import store.model.StockManager;
 import store.model.domain.Stock;
 
 public class StocksResponse {
@@ -17,11 +18,25 @@ public class StocksResponse {
 
     public static StocksResponse from(List<Stock> stocks) {
         List<InnerStockResponse> newStocksResponse = new ArrayList<>();
+
         for (Stock stock : stocks) {
-            InnerStockResponse newStockResponse = InnerStockResponse.from(stock);
-            newStocksResponse.add(newStockResponse);
+            newStocksResponse.add(InnerStockResponse.from(stock));
+            addMissingGeneralStock(newStocksResponse, stock.getProductName());
         }
         return new StocksResponse(newStocksResponse);
+    }
+
+    private static void addMissingGeneralStock(List<InnerStockResponse> responses, String productName) {
+        StockManager stockManager = StockManager.getInstance();
+
+        if (stockManager.existsPromotionStock(productName)) {
+            List<Stock> relatedStocks = stockManager.findPromotionAndGeneralStocks(productName);
+            if (relatedStocks.size() == 1) {
+                Stock stock = relatedStocks.get(0);
+                Stock generalStock = Stock.of(stock.getProductName(), stock.getProductPrice(), 0, NO_PROMOTION);
+                responses.add(InnerStockResponse.from(generalStock));
+            }
+        }
     }
 
     public List<InnerStockResponse> getStocksResponse() {
