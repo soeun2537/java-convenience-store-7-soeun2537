@@ -111,4 +111,17 @@ class StockTest {
         // then
         assertThat(stock.getQuantity()).isEqualTo(10);
     }
+
+    @Test
+    @DisplayName("재고 차감: 음수 - 예외 테스트")
+    void reduceQuantity_negative() {
+        // given
+        Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Integer addQuantity = -5;
+
+        // when & then
+        assertThatThrownBy(() -> stock.reduceQuantity(addQuantity))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
