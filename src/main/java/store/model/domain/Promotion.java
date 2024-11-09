@@ -44,6 +44,10 @@ public class Promotion {
         return giftCount;
     }
 
+    public Integer getRequiredPlusGiftCount() {
+        return requiredCount + giftCount;
+    }
+
     public LocalDate getStartDate() {
         return startDate;
     }
