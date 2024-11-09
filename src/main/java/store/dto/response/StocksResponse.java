@@ -51,7 +51,7 @@ public class StocksResponse {
         }
 
         private static String formatPromotionName(String promotionName) {
-            if (promotionName.equals(NNO_PROMOTION)) {
+            if (promotionName.equals(NO_PROMOTION)) {
                 return EMPTY_STRING;
             }
             return promotionName;
