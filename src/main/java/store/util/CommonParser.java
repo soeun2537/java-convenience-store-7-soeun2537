@@ -2,6 +2,7 @@ package store.util;
 
 import static store.constant.InputConstant.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,5 +25,14 @@ public class CommonParser {
 
     public static boolean parseBoolean(String input) {
         return TRUE_STRING.getContent().equalsIgnoreCase(input);
+    }
+
+    public static LocalDate parseDate(String input) {
+        List<String> separatedDate = separateBySeparator(input, DATE_SEPARATOR.getContent());
+        return LocalDate.of(
+                convertStringToInteger(separatedDate.get(0)),
+                convertStringToInteger(separatedDate.get(1)),
+                convertStringToInteger(separatedDate.get(2))
+        );
     }
 }
