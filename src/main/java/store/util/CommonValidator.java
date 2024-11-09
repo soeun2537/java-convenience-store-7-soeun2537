@@ -19,4 +19,10 @@ public class CommonValidator {
             throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
         }
     }
+
+    public static void validateYesOrNo(String input) {
+        if (!input.matches(YES_NO_PATTERN.getContent())) {
+            throw new IllegalArgumentException(GENERAL_INVALID_INPUT.getMessage());
+        }
+    }
 }
