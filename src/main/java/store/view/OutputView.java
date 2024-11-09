@@ -11,6 +11,7 @@ import store.dto.response.StocksResponse.InnerStockResponse;
 public class OutputView {
 
     public static void printStartGuidance() {
+        printNewLine();
         println(START_GUIDANCE.getMessage());
     }
 
@@ -94,6 +95,11 @@ public class OutputView {
         println(RECEIPT_PROMOTION_DISCOUNT.getMessage(response.getPromotionDiscount()));
         println(RECEIPT_MEMBERSHIP_DISCOUNT.getMessage(response.getMembershipDiscount()));
         println(RECEIPT_FINAL_AMOUNT.getMessage(response.getFinalAmount()));
+    }
+
+    public static void printErrorMessage(RuntimeException e) {
+        printNewLine();
+        println(e.getMessage());
     }
 
     private static void println(String content) {
