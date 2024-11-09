@@ -4,11 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.model.domain.Stock;
 
 class StockManagerTest {
+
+    @BeforeEach
+    void beforeEach() {
+        StockManager.getInstance().clearStocks();
+    }
 
     @Test
     @DisplayName("StockManager 싱글톤 인스턴스 생성")
@@ -52,5 +58,22 @@ class StockManagerTest {
         // then
         assertThatThrownBy(() -> stocks.add(stock))
                 .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
+    @DisplayName("StockManager 초기화")
+    void clearStocks() {
+        // given
+        StockManager manager = StockManager.getInstance();
+        Stock stock1 = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Stock stock2 = Stock.of("사이다", 1200, 5, null);
+        manager.addStock(stock1);
+        manager.addStock(stock2);
+
+        // when
+        manager.clearStocks();
+
+        // then
+        assertThat(manager.getStocks()).isEmpty();
     }
 }
