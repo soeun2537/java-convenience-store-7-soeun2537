@@ -76,4 +76,16 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Numeric: 특수 문자 - 예외 테스트")
+    void validateNumeric_specialCharacter() {
+        // given
+        String input = "$";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateNumeric(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
