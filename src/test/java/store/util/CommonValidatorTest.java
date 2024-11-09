@@ -140,4 +140,20 @@ class CommonValidatorTest {
         assertThatCode(() -> CommonValidator.validateYesOrNo(lowerInput))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Yes No: 다른 문자 - 예외 테스트")
+    void validateYesOrNo_anotherCharacter() {
+        // given
+        String upperInput = "A";
+        String lowerInput = "a";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateYesOrNo(upperInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+        assertThatThrownBy(() -> CommonValidator.validateYesOrNo(lowerInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
