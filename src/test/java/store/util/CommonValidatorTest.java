@@ -64,4 +64,16 @@ class CommonValidatorTest {
         assertThatCode(() -> CommonValidator.validateNumeric(input))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Numeric: 문자 - 예외 테스트")
+    void validateNumeric_string() {
+        // given
+        String input = "a";
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateNumeric(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
