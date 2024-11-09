@@ -112,4 +112,18 @@ class CommonValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    @DisplayName("입력 문자열 유효성 검사 Yes No: true - 성공 테스트")
+    void validateYesOrNo_true() {
+        // given
+        String upperInput = "Y";
+        String lowerInput = "y";
+
+        // when & then
+        assertThatCode(() -> CommonValidator.validateYesOrNo(upperInput))
+                .doesNotThrowAnyException();
+        assertThatCode(() -> CommonValidator.validateYesOrNo(lowerInput))
+                .doesNotThrowAnyException();
+    }
 }
