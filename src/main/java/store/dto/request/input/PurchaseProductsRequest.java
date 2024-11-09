@@ -1,9 +1,13 @@
 package store.dto.request.input;
 
 import static store.constant.InputConstant.*;
+import static store.constant.message.ErrorMessage.INSUFFICIENT_STOCK;
+import static store.constant.message.ErrorMessage.NOT_FOUND_PRODUCT;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import store.model.StockManager;
 import store.util.CommonParser;
 import store.util.CommonValidator;
 
@@ -46,18 +50,26 @@ public class PurchaseProductsRequest {
             List<String> productEntry = CommonParser.separateBySeparator(separatedProduct, "-");
             String productName = parseProductName(productEntry);
             Integer productQuantity = parseProductQuantity(productEntry);
+            validateNonExistentProduct(productName);
             return new InnerPurchaseProductRequest(productName, productQuantity);
         }
 
         private static String parseProductName(List<String> productEntry) {
-            String first = productEntry.getFirst();
-            return first;
+            return productEntry.getFirst();
         }
 
         private static Integer parseProductQuantity(List<String> productEntry) {
             String productQuantity = productEntry.getLast();
             CommonValidator.validateNumeric(productQuantity);
             return CommonParser.convertStringToInteger(productQuantity);
+        }
+
+        private static void validateNonExistentProduct(String productName) {
+            StockManager stockManager = StockManager.getInstance();
+            Set<String> existingProductNames = stockManager.getProductNames();
+            if (!existingProductNames.contains(productName)) {
+                throw new IllegalArgumentException(NOT_FOUND_PRODUCT.getMessage());
+            }
         }
 
         public String getProductName() {
