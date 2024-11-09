@@ -214,4 +214,16 @@ class CommonValidatorTest {
         assertThatCode(() -> CommonValidator.validateNonNegative(input))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("유효성 검사 NonNegative: 음수 - 예외 테스트")
+    void validateNonNegative_negative() {
+        // given
+        Integer input = -1;
+
+        // when & then
+        assertThatThrownBy(() -> CommonValidator.validateNonNegative(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
