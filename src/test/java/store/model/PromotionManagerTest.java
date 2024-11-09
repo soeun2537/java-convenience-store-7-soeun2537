@@ -3,10 +3,12 @@ package store.model;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.model.domain.Promotion;
+import store.model.domain.Stock;
 
 class PromotionManagerTest {
 
@@ -53,5 +55,21 @@ class PromotionManagerTest {
 
         // then
         assertThat(findPromotion).isNotPresent();
+    }
+
+    @Test
+    @DisplayName("Promotion 조회: 불변성")
+    void getStocks_immutable() {
+        // given
+        PromotionManager manager = PromotionManager.getInstance();
+        Promotion promotion = Promotion.of("탄산2+1", 2, 1,
+                LocalDate.of(2024, 1, 1), LocalDate.of(2024, 12, 31));
+
+        // when
+        List<Promotion> promotions = manager.getPromotions();
+
+        // then
+        assertThatThrownBy(() -> promotions.add(promotion))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }
