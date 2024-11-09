@@ -36,4 +36,17 @@ class CommonParserTest {
         assertThat(separatedInput.get(0)).isEqualTo("콜라");
         assertThat(separatedInput.get(1)).isEqualTo("3");
     }
+
+    @Test
+    @DisplayName("문자열을 정수로 변환하는지 확인")
+    void convertStringToInteger() {
+        // given
+        String input = "2024";
+
+        // when
+        Integer convertedInput = CommonParser.convertStringToInteger(input);
+
+        // then
+        assertThat(convertedInput).isEqualTo(2024);
+    }
 }
