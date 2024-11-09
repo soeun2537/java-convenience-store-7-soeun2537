@@ -51,6 +51,7 @@ public class PurchaseProductsRequest {
             String productName = parseProductName(productEntry);
             Integer productQuantity = parseProductQuantity(productEntry);
             validateNonExistentProduct(productName);
+            validateSufficientStocksQuantity(productName, productQuantity);
             return new InnerPurchaseProductRequest(productName, productQuantity);
         }
 
@@ -69,6 +70,14 @@ public class PurchaseProductsRequest {
             Set<String> existingProductNames = stockManager.getProductNames();
             if (!existingProductNames.contains(productName)) {
                 throw new IllegalArgumentException(NOT_FOUND_PRODUCT.getMessage());
+            }
+        }
+
+        private static void validateSufficientStocksQuantity(String productName, Integer quantity) {
+            StockManager stockManager = StockManager.getInstance();
+            Integer totalQuantity = stockManager.calculatePromotionAndGeneralStockQuantity(productName);
+            if (totalQuantity < quantity) {
+                throw new IllegalArgumentException(INSUFFICIENT_STOCK.getMessage());
             }
         }
 
