@@ -19,4 +19,8 @@ public class PromotionManager {
     public static PromotionManager getInstance() {
         return PromotionManagerHolder.INSTANCE;
     }
+
+    public void addPromotion(Promotion promotion) {
+        promotions.add(promotion);
+    }
 }
