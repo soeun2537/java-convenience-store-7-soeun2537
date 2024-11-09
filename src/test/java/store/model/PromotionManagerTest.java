@@ -88,4 +88,20 @@ class PromotionManagerTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @Test
+    @DisplayName("프로모션 기간 내 여부를 확인: false")
+    void validateWithinPeriod_false() {
+        // given
+        PromotionManager promotionManager = PromotionManager.getInstance();
+        Promotion promotion = Promotion.of("프로모션", 2, 1,
+                LocalDate.of(2024, 1, 1),
+                DateTimes.now().toLocalDate().minusDays(1));
+
+        // when
+        boolean result = promotionManager.validateWithinPeriod(promotion);
+
+        // then
+        assertThat(result).isFalse();
+    }
 }
