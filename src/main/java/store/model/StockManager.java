@@ -91,4 +91,12 @@ public class StockManager {
         }
         return findStocks;
     }
+
+    public Integer calculatePromotionAndGeneralStockQuantity(String productName) {
+        Integer totalQuantity = 0;
+        for (Stock stock : findPromotionAndGeneralStocks(productName)) {
+            totalQuantity += stock.getQuantity();
+        }
+        return totalQuantity;
+    }
 }
