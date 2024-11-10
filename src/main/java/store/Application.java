@@ -14,6 +14,7 @@ public class Application {
         StockManager stockManager = StockManager.getInstance();
         ReceiptManager receiptManager = new ReceiptManager();
 
+        stockManager.clearStocks();
         InventoryService inventoryService = new InventoryService(promotionManager, stockManager);
         ConvenienceService convenienceService = new ConvenienceService(promotionManager, stockManager, receiptManager);
 
