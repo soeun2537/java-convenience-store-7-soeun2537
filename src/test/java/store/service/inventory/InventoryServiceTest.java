@@ -24,6 +24,7 @@ class InventoryServiceTest {
         promotionManager = PromotionManager.getInstance();
         stockManager = StockManager.getInstance();
         inventoryService = new InventoryService(promotionManager, stockManager);
+        stockManager.clearStocks();
     }
 
     @Test

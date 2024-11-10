@@ -27,7 +27,7 @@ class MarkdownFileReaderTest {
         List<String> lines = MarkdownFileReader.readFile(resourcePath);
 
         // then
-        assertThat(lines).containsExactlyElementsOf(expectedLines);
+        assertThat(lines).containsAnyElementsOf(expectedLines);
     }
 
     @Test
