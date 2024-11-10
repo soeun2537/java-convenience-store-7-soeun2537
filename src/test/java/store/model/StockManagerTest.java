@@ -11,9 +11,12 @@ import store.model.domain.Stock;
 
 class StockManagerTest {
 
+    private StockManager stockManager;
+
     @BeforeEach
     void beforeEach() {
-        StockManager.getInstance().clearStocks();
+        stockManager = StockManager.getInstance();
+        stockManager.clearStocks();
     }
 
     @Test
@@ -31,14 +34,13 @@ class StockManagerTest {
     @DisplayName("Stock 추가 및 조회")
     void addAndGetStock() {
         // given
-        StockManager manager = StockManager.getInstance();
         Stock stock1 = Stock.of("콜라", 1000, 10, "탄산2+1");
-        Stock stock2 = Stock.of("사이다", 1200, 5, null);
+        Stock stock2 = Stock.of("사이다", 1200, 5, "null");
 
         // when
-        manager.addStock(stock1);
-        manager.addStock(stock2);
-        List<Stock> stocks = manager.getStocks();
+        stockManager.addStock(stock1);
+        stockManager.addStock(stock2);
+        List<Stock> stocks = stockManager.getStocks();
 
         // then
         assertThat(stocks).hasSize(2);
@@ -49,11 +51,10 @@ class StockManagerTest {
     @DisplayName("Stock 조회: 불변성")
     void getStocks_immutable() {
         // given
-        StockManager manager = StockManager.getInstance();
         Stock stock = Stock.of("콜라", 1000, 10, "탄산2+1");
 
         // when
-        List<Stock> stocks = manager.getStocks();
+        List<Stock> stocks = stockManager.getStocks();
 
         // then
         assertThatThrownBy(() -> stocks.add(stock))
@@ -64,16 +65,15 @@ class StockManagerTest {
     @DisplayName("StockManager 초기화")
     void clearStocks() {
         // given
-        StockManager manager = StockManager.getInstance();
         Stock stock1 = Stock.of("콜라", 1000, 10, "탄산2+1");
-        Stock stock2 = Stock.of("사이다", 1200, 5, null);
-        manager.addStock(stock1);
-        manager.addStock(stock2);
+        Stock stock2 = Stock.of("사이다", 1200, 5, "null");
+        stockManager.addStock(stock1);
+        stockManager.addStock(stock2);
 
         // when
-        manager.clearStocks();
+        stockManager.clearStocks();
 
         // then
-        assertThat(manager.getStocks()).isEmpty();
+        assertThat(stockManager.getStocks()).isEmpty();
     }
 }
