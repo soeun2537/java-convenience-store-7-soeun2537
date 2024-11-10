@@ -56,4 +56,27 @@ class PurchaseTransactionHandlerTest {
         assertThat(receipt.getGiftStocks().getFirst().getProductName()).isEqualTo("콜라");
         assertThat(receipt.getGiftStocks().getFirst().getQuantity()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("프로모션 포함 상품 구매: 증정 계산 false")
+    void processWithGift_calculateGift_false() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 4;
+
+        // when
+        transactionHandler.processWithGift(product, quantity, false);
+
+        // then
+        Receipt receipt = receiptManager.get();
+        Stock promotionStock = stockManager.findPromotionAndGeneralStocks(product.getName()).getFirst();
+
+        assertThat(promotionStock.getQuantity()).isEqualTo(6);
+        assertThat(receipt.getPurchasedStocks().size()).isEqualTo(1);
+        assertThat(receipt.getPurchasedStocks().getFirst().getProductName()).isEqualTo("콜라");
+        assertThat(receipt.getPurchasedStocks().getFirst().getQuantity()).isEqualTo(4);
+        assertThat(receipt.getGiftStocks().size()).isEqualTo(1);
+        assertThat(receipt.getGiftStocks().getFirst().getProductName()).isEqualTo("콜라");
+        assertThat(receipt.getGiftStocks().getFirst().getQuantity()).isEqualTo(4);
+    }
 }
