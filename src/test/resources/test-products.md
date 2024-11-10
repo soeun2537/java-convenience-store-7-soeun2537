@@ -6,3 +6,4 @@ name,price,quantity,promotion
 초코바,1200,5,MD추천상품
 초코바,1200,5,null
 에너지바,2000,5,null
+프로모션기간이지난상품,1000,8,기간이지난프로모션
