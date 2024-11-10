@@ -70,4 +70,21 @@ class ReceiptTest {
         assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
         assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
     }
+
+    @Test
+    @DisplayName("멤버십 적용 확인: true")
+    void applyMembership_true() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer purchaseQuantity = 5;
+        Integer giftQuantity = 1;
+        receipt.addPurchasedStock(product, purchaseQuantity);
+        receipt.addGiftStock(product, giftQuantity);
+
+        // when
+        receipt.applyMembership();
+
+        // then
+        assertThat(receipt.calculateMembershipDiscount()).isNotZero();
+    }
 }
