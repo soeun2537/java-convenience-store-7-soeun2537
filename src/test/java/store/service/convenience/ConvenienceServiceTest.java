@@ -6,10 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.constant.TestPathConstant;
+import store.dto.request.input.PurchaseProductsRequest;
 import store.dto.response.StocksResponse;
+import store.dto.server.StatusDto;
 import store.model.PromotionManager;
 import store.model.ReceiptManager;
+import store.model.Status;
 import store.model.StockManager;
+import store.model.domain.Receipt;
 import store.service.inventory.InventoryService;
 
 class ConvenienceServiceTest {
@@ -40,5 +44,17 @@ class ConvenienceServiceTest {
         // then
         assertThat(stocksResponse.getStocksResponse()).isNotEmpty();
         assertThat(stocksResponse.getStocksResponse().getFirst().getName()).isEqualTo("콜라");
+    }
+
+    @Test
+    @DisplayName("영수증을 생성")
+    void createReceipt() {
+        // when
+        convenienceService.createReceipt();
+
+        // then
+        Receipt receipt = receiptManager.get();
+        assertThat(receipt.getPurchasedStocks()).isEmpty();
+        assertThat(receipt.getGiftStocks()).isEmpty();
     }
 }
