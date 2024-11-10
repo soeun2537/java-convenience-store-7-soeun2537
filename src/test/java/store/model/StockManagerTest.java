@@ -143,4 +143,22 @@ class StockManagerTest {
         // then
         assertThat(result).isFalse();
     }
+
+    @Test
+    @DisplayName("상품 이름으로 재고 모두 가져오기")
+    void findPromotionAndGeneralStocks() {
+        // given
+        Stock stock1 = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Stock stock2 = Stock.of("콜라", 1000, 5, "null");
+        stockManager.addStock(stock1);
+        stockManager.addStock(stock2);
+
+        // when
+        List<Stock> stocks = stockManager.findPromotionAndGeneralStocks(stock1.getProductName());
+
+        // then
+        assertThat(stocks).hasSize(2);
+        assertThat(stocks.getFirst().getPromotionName()).isEqualTo(stock1.getPromotionName());
+        assertThat(stocks.getLast().getPromotionName()).isEqualTo(stock2.getPromotionName());
+    }
 }
