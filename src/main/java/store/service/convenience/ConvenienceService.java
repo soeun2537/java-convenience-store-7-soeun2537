@@ -27,4 +27,8 @@ public class ConvenienceService {
     public StocksResponse createStocksResponse() {
         return StocksResponse.from(stockManager.getStocks());
     }
+
+    public void createReceipt() {
+        receiptManager.createReceipt();
+    }
 }
