@@ -1,6 +1,9 @@
 package store.service.inventory;
 
+import static store.constant.ConvenienceConstant.NO_PROMOTION;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import store.dto.request.file.PromotionRequest;
 import store.dto.request.file.StockRequest;
@@ -37,6 +40,7 @@ public class InventoryService {
             Stock stock = createStock(stockRequest);
             stockManager.addStock(stock);
         }
+        addMissingGeneralStock();
     }
 
     private Promotion createPromotion(PromotionRequest promotionRequest) {
@@ -56,5 +60,21 @@ public class InventoryService {
         String promotionName = stockRequest.getPromotionName();
 
         return Stock.of(name, price, quantity, promotionName);
+    }
+
+    private void addMissingGeneralStock() {
+        List<Stock> addToStocks = new ArrayList<>();
+        for (Stock stock : stockManager.getStocks()) {
+            List<Stock> findStocks = stockManager.findPromotionAndGeneralStocks(stock.getProductName());
+            if (stockManager.existsPromotionStock(stock.getProductName()) && findStocks.size() == 1) {
+                Stock promotionStock = findStocks.getFirst();
+                Stock generalStock = Stock.of(
+                        promotionStock.getProductName(), promotionStock.getProductPrice(), 0, NO_PROMOTION);
+                addToStocks.add(generalStock);
+            }
+        }
+        for (Stock stock : addToStocks) {
+            stockManager.addStock(stock);
+        }
     }
 }
