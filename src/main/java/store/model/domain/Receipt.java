@@ -1,6 +1,7 @@
 package store.model.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,5 +47,13 @@ public class Receipt {
             }
         }
         return Optional.empty();
+    }
+
+    public List<Stock> getPurchasedStocks() {
+        return Collections.unmodifiableList(purchasedStocks);
+    }
+
+    public List<Stock> getGiftStocks() {
+        return Collections.unmodifiableList(giftStocks);
     }
 }
