@@ -57,4 +57,20 @@ class ConvenienceServiceTest {
         assertThat(receipt.getPurchasedStocks()).isEmpty();
         assertThat(receipt.getGiftStocks()).isEmpty();
     }
+
+    @Test
+    @DisplayName("상품 구매: NO_ACTION_REQUIRED")
+    void purchaseProducts_noActionRequired() {
+        // given
+        String input = "[콜라-3]";
+        PurchaseProductsRequest request = PurchaseProductsRequest.from(input);
+
+        // when
+        StatusDto statusDto = convenienceService.purchaseProducts(request).getFirst();
+
+        // then
+        assertThat(statusDto.getStatus()).isEqualTo(Status.NO_ACTION_REQUIRED);
+        assertThat(statusDto.getProduct()).isNull();
+        assertThat(statusDto.getQuantity()).isEqualTo(0);
+    }
 }
