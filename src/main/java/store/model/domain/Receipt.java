@@ -1,10 +1,8 @@
 package store.model.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import store.model.PromotionManager;
 
 public class Receipt {
 
@@ -24,6 +22,10 @@ public class Receipt {
 
     public void addPurchasedStock(Product product, Integer quantity) {
         addStock(purchasedStocks, product, quantity);
+    }
+
+    public void addGiftStock(Product product, Integer quantity) {
+        addStock(giftStocks, product, quantity);
     }
 
     private void addStock(List<Stock> stocks, Product product, Integer quantity) {
