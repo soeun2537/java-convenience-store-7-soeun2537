@@ -113,4 +113,20 @@ class StockManagerTest {
         assertThat(stocks.getFirst().getQuantity()).isEqualTo(0);
         assertThat(stocks.getLast().getQuantity()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("프로모션 재고가 있는지 확인: true")
+    void existsPromotionStock_true() {
+        // given
+        Stock stock1 = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Stock stock2 = Stock.of("콜라", 1000, 5, "null");
+        stockManager.addStock(stock1);
+        stockManager.addStock(stock2);
+
+        // when
+        boolean result = stockManager.existsPromotionStock(stock1.getProductName());
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
