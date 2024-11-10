@@ -129,4 +129,18 @@ class StockManagerTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @Test
+    @DisplayName("프로모션 재고가 있는지 확인: false")
+    void existsPromotionStock_false() {
+        // given
+        Stock stock = Stock.of("콜라", 1000, 5, "null");
+        stockManager.addStock(stock);
+
+        // when
+        boolean result = stockManager.existsPromotionStock(stock.getProductName());
+
+        // then
+        assertThat(result).isFalse();
+    }
 }
