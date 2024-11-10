@@ -23,6 +23,10 @@ public class StatusDto {
         return new StatusDto(Status.REGULAR_PRICE_PAYMENT, product, quantity);
     }
 
+    public static StatusDto setNoActionRequiredStatus() {
+        return new StatusDto(Status.NO_ACTION_REQUIRED, null, 0);
+    }
+
     public Status getStatus() {
         return status;
     }
