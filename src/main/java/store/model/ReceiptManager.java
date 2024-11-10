@@ -9,4 +9,8 @@ public class ReceiptManager {
     public void createReceipt() {
         receipt = Receipt.createAndInitialize();
     }
+
+    public Receipt get() {
+        return receipt;
+    }
 }
