@@ -1,6 +1,8 @@
 package store.service.convenience;
 
 import static org.assertj.core.api.Assertions.*;
+import static store.constant.message.ErrorMessage.INSUFFICIENT_STOCK;
+import static store.constant.message.ErrorMessage.NOT_FOUND_PRODUCT;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +16,7 @@ import store.model.ReceiptManager;
 import store.model.Status;
 import store.model.StockManager;
 import store.model.domain.Receipt;
+import store.model.domain.Stock;
 import store.service.inventory.InventoryService;
 
 class ConvenienceServiceTest {
@@ -104,5 +107,34 @@ class ConvenienceServiceTest {
         assertThat(statusDto.getStatus()).isEqualTo(Status.REGULAR_PRICE_PAYMENT);
         assertThat(statusDto.getProductName()).isEqualTo("콜라");
         assertThat(statusDto.getQuantity()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 상품 - 예외 테스트")
+    void purchaseProduct_validateSufficientStocksQuantity() {
+        // given
+        String input = "[존재하지않는상품-3]";
+        PurchaseProductsRequest request = PurchaseProductsRequest.from(input);
+
+        // when & then
+        assertThatThrownBy(() -> convenienceService.purchaseProducts(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(NOT_FOUND_PRODUCT.getMessage());
+    }
+
+    @Test
+    @DisplayName("재고 초과 - 예외 테스트")
+    void purchaseProduct_validateNonExistentProduct() {
+        // given
+        StockManager stockManager = StockManager.getInstance();
+        Stock stock = Stock.of("바나나", 1000, 4, "null");
+        stockManager.addStock(stock);
+        String input = "[바나나-5]";
+        PurchaseProductsRequest request = PurchaseProductsRequest.from(input);
+
+        // when & then
+        assertThatThrownBy(() -> convenienceService.purchaseProducts(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(INSUFFICIENT_STOCK.getMessage());
     }
 }

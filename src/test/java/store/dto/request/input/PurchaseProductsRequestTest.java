@@ -78,31 +78,4 @@ class PurchaseProductsRequestTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR]");
     }
-
-    @Test
-    @DisplayName("구매할 상품 Request DTO 생성: 존재하지 않는 상품 - 예외 테스트")
-    void from_validateNonExistentProduct() {
-        // given
-        String input = "[존재하지않는상품-3]";
-
-        // when & then
-        assertThatThrownBy(() -> PurchaseProductsRequest.from(input))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(NOT_FOUND_PRODUCT.getMessage());
-    }
-
-    @Test
-    @DisplayName("구매할 상품 Request DTO 생성: 재고 초과 - 예외 테스트")
-    void from_validateSufficientStocksQuantity() {
-        // given
-        StockManager stockManager = StockManager.getInstance();
-        Stock stock = Stock.of("바나나", 1000, 4, "null");
-        stockManager.addStock(stock);
-        String input = "[바나나-5]";
-
-        // when & then
-        assertThatThrownBy(() -> PurchaseProductsRequest.from(input))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INSUFFICIENT_STOCK.getMessage());
-    }
 }
