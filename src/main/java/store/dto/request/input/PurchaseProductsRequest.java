@@ -1,11 +1,9 @@
 package store.dto.request.input;
 
 import static store.constant.InputConstant.*;
-import static store.constant.message.ErrorMessage.INSUFFICIENT_STOCK;
 
 import java.util.ArrayList;
 import java.util.List;
-import store.model.StockManager;
 import store.util.CommonParser;
 import store.util.CommonValidator;
 
@@ -48,7 +46,6 @@ public class PurchaseProductsRequest {
             List<String> productEntry = CommonParser.separateBySeparator(separatedProduct, "-");
             String productName = parseProductName(productEntry);
             Integer productQuantity = parseProductQuantity(productEntry);
-            validateSufficientStocksQuantity(productName, productQuantity);
             return new InnerPurchaseProductRequest(productName, productQuantity);
         }
 
@@ -60,14 +57,6 @@ public class PurchaseProductsRequest {
             String productQuantity = productEntry.getLast();
             CommonValidator.validateNumeric(productQuantity);
             return CommonParser.convertStringToInteger(productQuantity);
-        }
-
-        private static void validateSufficientStocksQuantity(String productName, Integer quantity) {
-            StockManager stockManager = StockManager.getInstance();
-            Integer totalQuantity = stockManager.calculatePromotionAndGeneralStockQuantity(productName);
-            if (totalQuantity < quantity) {
-                throw new IllegalArgumentException(INSUFFICIENT_STOCK.getMessage());
-            }
         }
 
         public String getProductName() {

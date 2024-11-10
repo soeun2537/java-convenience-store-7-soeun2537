@@ -4,6 +4,7 @@ import static store.constant.message.ErrorMessage.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import store.dto.request.input.PurchaseProductsRequest;
 import store.dto.request.input.PurchaseProductsRequest.InnerPurchaseProductRequest;
 import store.dto.response.ReceiptResponse;
@@ -11,6 +12,7 @@ import store.dto.response.StocksResponse;
 import store.dto.server.StatusDto;
 import store.model.PromotionManager;
 import store.model.StockManager;
+import store.model.domain.Product;
 import store.model.domain.Stock;
 import store.model.domain.Receipt;
 import store.model.ReceiptManager;
@@ -47,18 +49,19 @@ public class ConvenienceService {
 
         for (InnerPurchaseProductRequest request : purchaseProductsRequest.getPurchaseProductsRequests()) {
             List<Stock> stocks = stockManager.findPromotionAndGeneralStocks(request.getProductName());
-            stockDtos.add(purchaseProduct(stocks, request.getProductQuantity()));
+            validateNonExistentProduct(stocks);
+            validateSufficientStocksQuantity(stocks.getFirst().getProductName(), request.getProductQuantity());
+            stockDtos.add(purchaseProduct(stocks.getFirst(), request.getProductQuantity()));
         }
 
         return stockDtos;
     }
 
-    private StatusDto purchaseProduct(List<Stock> stocks, Integer quantity) {
-        validateSufficientStocksQuantity(stocks.getFirst().getProductName(), quantity);
-        if (stockManager.existsPromotionStock(stocks.getFirst().getProductName())) {
-            return promotionProcessor.handlePromotion(stocks.getFirst(), quantity);
+    private StatusDto purchaseProduct(Stock stock, Integer quantity) {
+        if (stockManager.existsPromotionStock(stock.getProductName())) {
+            return promotionProcessor.handlePromotion(stock, quantity);
         }
-        return generalProcessor.handleGeneral(stocks.getFirst(), quantity);
+        return generalProcessor.handleGeneral(stock, quantity);
     }
 
     public void applyAddingQuantity(StatusDto statusDto) {
@@ -85,7 +88,13 @@ public class ConvenienceService {
     private void validateSufficientStocksQuantity(String productName, Integer quantity) {
         Integer totalQuantity = stockManager.calculatePromotionAndGeneralStockQuantity(productName);
         if (totalQuantity < quantity) {
-            throw new IllegalStateException(INSUFFICIENT_STOCK.getMessage());
+            throw new IllegalArgumentException(INSUFFICIENT_STOCK.getMessage());
+        }
+    }
+
+    private void validateNonExistentProduct(List<Stock> stocks) {
+        if (stocks.isEmpty()) {
+            throw new IllegalArgumentException(NOT_FOUND_PRODUCT.getMessage());
         }
     }
 }
