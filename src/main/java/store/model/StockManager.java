@@ -45,4 +45,31 @@ public class StockManager {
         }
         return productNames;
     }
+
+    public void reduceStockQuantity(Product product, Integer quantity) {
+        List<Stock> stocks = findPromotionAndGeneralStocks(product.getName());
+
+        if (existsPromotionStock(product.getName()) && stocks.size() > 1) {
+            reducePromotionAndGeneralStock(stocks, quantity);
+            return;
+        }
+        reduceSingleStock(stocks, quantity);
+    }
+
+    private void reducePromotionAndGeneralStock(List<Stock> stocks, Integer quantity) {
+        Stock promotionStock = stocks.get(0);
+        Stock generalStock = stocks.get(1);
+        Integer promotionQuantity = promotionStock.getQuantity();
+
+        if (promotionQuantity >= quantity) {
+            promotionStock.reduceQuantity(quantity);
+            return;
+        }
+        promotionStock.reduceQuantity(promotionQuantity);
+        generalStock.reduceQuantity(quantity - promotionQuantity);
+    }
+
+    private void reduceSingleStock(List<Stock> stocks, Integer quantity) {
+        stocks.get(0).reduceQuantity(quantity);
+    }
 }
