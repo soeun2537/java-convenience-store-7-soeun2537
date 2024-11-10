@@ -39,7 +39,7 @@ public class ReceiptResponse {
         return new ReceiptResponse(
                 purchasedStocks,
                 giftStocks,
-                receipt.getTotalPurchaseQuantity(),
+                receipt.calculateTotalPurchaseQuantity(),
                 receipt.calculateTotalPurchaseAmount(),
                 receipt.calculatePromotionDiscount(),
                 receipt.calculateMembershipDiscount(),
