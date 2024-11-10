@@ -55,6 +55,14 @@ public class Receipt {
         return totalPurchaseQuantity;
     }
 
+    public Integer calculateTotalPurchaseAmount() {
+        Integer purchaseAmount = 0;
+        for (Stock purchasedStock : purchasedStocks) {
+            purchaseAmount += purchasedStock.getProductPrice() * purchasedStock.getQuantity();
+        }
+        return purchaseAmount;
+    }
+
     private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
         for (Stock stock : stocks) {
             if (stock.getProductName().equals(product.getName())) {
