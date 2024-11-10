@@ -161,4 +161,20 @@ class StockManagerTest {
         assertThat(stocks.getFirst().getPromotionName()).isEqualTo(stock1.getPromotionName());
         assertThat(stocks.getLast().getPromotionName()).isEqualTo(stock2.getPromotionName());
     }
+
+    @Test
+    @DisplayName("상품 이름으로 가져온 재고의 합 계산")
+    void calculatePromotionAndGeneralStockQuantity() {
+        // given
+        Stock stock1 = Stock.of("콜라", 1000, 10, "탄산2+1");
+        Stock stock2 = Stock.of("콜라", 1000, 5, "null");
+        stockManager.addStock(stock1);
+        stockManager.addStock(stock2);
+
+        // when
+        Integer quantity = stockManager.calculatePromotionAndGeneralStockQuantity(stock1.getProductName());
+
+        // then
+        assertThat(quantity).isEqualTo(15);
+    }
 }
