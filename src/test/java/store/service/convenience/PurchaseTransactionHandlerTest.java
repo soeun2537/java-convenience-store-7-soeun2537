@@ -28,8 +28,9 @@ class PurchaseTransactionHandlerTest {
         receiptManager = new ReceiptManager();
         transactionHandler = new PurchaseTransactionHandler(stockManager, promotionManager, receiptManager);
 
-        InventoryService inventoryService = new InventoryService(promotionManager, stockManager);
+        stockManager.clearStocks();
         receiptManager.createReceipt();
+        InventoryService inventoryService = new InventoryService(promotionManager, stockManager);
         inventoryService.setupPromotions(TestPathConstant.PROMOTION_FILE_PATH.getPath());
         inventoryService.setupStocks(TestPathConstant.PRODUCT_FILE_PATH.getPath());
     }
