@@ -2,7 +2,7 @@ package store.dto.response;
 
 import java.util.ArrayList;
 import java.util.List;
-import store.model.domain.Stock;
+import store.model.domain.Receipt.InnerReceipt;
 import store.model.domain.Receipt;
 
 public class ReceiptResponse {
@@ -47,9 +47,9 @@ public class ReceiptResponse {
         );
     }
 
-    private static List<InnerReceiptStockResponse> convertToInnerReceiptStocks(List<Stock> stocks) {
+    private static List<InnerReceiptStockResponse> convertToInnerReceiptStocks(List<InnerReceipt> stocks) {
         List<InnerReceiptStockResponse> convertToInnerReceiptStocks = new ArrayList<>();
-        for (Stock stock : stocks) {
+        for (InnerReceipt stock : stocks) {
             convertToInnerReceiptStocks.add(InnerReceiptStockResponse.from(stock));
         }
         return convertToInnerReceiptStocks;
@@ -95,7 +95,7 @@ public class ReceiptResponse {
             this.totalPrice = totalPrice;
         }
 
-        public static InnerReceiptStockResponse from(Stock stock) {
+        public static InnerReceiptStockResponse from(InnerReceipt stock) {
             return new InnerReceiptStockResponse(
                     stock.getProductName(),
                     stock.getQuantity(),

@@ -30,18 +30,18 @@ public class PurchaseTransactionHandler {
                 .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_PROMOTION.getMessage()));
 
         stockManager.reduceStockQuantity(product, quantity);
-        receipt.addPurchasedStock(product, quantity);
+        receipt.addPurchasedStock(product, quantity, promotion);
         if (calculateGift) {
-            receipt.addGiftStock(product, (quantity / (promotion.getRequiredPlusGiftCount())));
+            receipt.addGiftStock(product, (quantity / (promotion.getRequiredPlusGiftCount())), promotion);
             return;
         }
-        receipt.addGiftStock(product, quantity);
+        receipt.addGiftStock(product, quantity, promotion);
     }
 
     public void processWithoutGift(Product product, Integer quantity) {
         Receipt receipt = receiptManager.get();
 
         stockManager.reduceStockQuantity(product, quantity);
-        receipt.addPurchasedStock(product, quantity);
+        receipt.addPurchasedStock(product, quantity, null);
     }
 }

@@ -8,17 +8,19 @@ import org.junit.jupiter.api.Test;
 import store.constant.TestPathConstant;
 import store.model.PromotionManager;
 import store.model.StockManager;
+import store.model.domain.Receipt.InnerReceipt;
 import store.service.inventory.InventoryService;
 
 class ReceiptTest {
 
     private Receipt receipt;
+    private PromotionManager promotionManager;
 
     @BeforeEach
     void beforeEach() {
         StockManager stockManager = StockManager.getInstance();
-        PromotionManager promotionManager = PromotionManager.getInstance();
         stockManager.clearStocks();
+        promotionManager = PromotionManager.getInstance();
 
         InventoryService inventoryService = new InventoryService(promotionManager, stockManager);
         inventoryService.setupPromotions(TestPathConstant.PROMOTION_FILE_PATH.getPath());
@@ -45,12 +47,13 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 3;
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
 
         // when
-        receipt.addPurchasedStock(product, quantity);
+        receipt.addPurchasedStock(product, quantity, promotion);
 
         // then
-        Stock purchasedStock = receipt.getPurchasedStocks().getFirst();
+        InnerReceipt purchasedStock = receipt.getPurchasedStocks().getFirst();
         assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
         assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
     }
@@ -61,12 +64,13 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 3;
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
 
         // when
-        receipt.addGiftStock(product, quantity);
+        receipt.addGiftStock(product, quantity, promotion);
 
         // then
-        Stock purchasedStock = receipt.getGiftStocks().getFirst();
+        InnerReceipt purchasedStock = receipt.getGiftStocks().getFirst();
         assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
         assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
     }
@@ -78,8 +82,9 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 5;
         Integer giftQuantity = 1;
-        receipt.addPurchasedStock(product, purchaseQuantity);
-        receipt.addGiftStock(product, giftQuantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addPurchasedStock(product, purchaseQuantity, promotion);
+        receipt.addGiftStock(product, giftQuantity, promotion);
 
         // when
         receipt.applyMembership();
@@ -95,8 +100,9 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 5;
         Integer giftQuantity = 1;
-        receipt.addPurchasedStock(product, purchaseQuantity);
-        receipt.addGiftStock(product, giftQuantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addPurchasedStock(product, purchaseQuantity, promotion);
+        receipt.addGiftStock(product, giftQuantity, promotion);
 
         // when
 //        receipt.applyMembership();
@@ -111,8 +117,9 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 5;
-        receipt.addPurchasedStock(product, quantity);
-        receipt.addPurchasedStock(product, quantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addPurchasedStock(product, quantity, promotion);
+        receipt.addPurchasedStock(product, quantity, promotion);
 
         // when & then
         assertThat(receipt.calculateTotalPurchaseQuantity()).isEqualTo(10);
@@ -123,8 +130,9 @@ class ReceiptTest {
     void calculateTotalPurchaseAmount() {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 5;
-        receipt.addPurchasedStock(product, quantity);
-        receipt.addPurchasedStock(product, quantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addPurchasedStock(product, quantity, promotion);
+        receipt.addPurchasedStock(product, quantity, promotion);
 
         // when & then
         assertThat(receipt.calculateTotalPurchaseAmount()).isEqualTo(10000);
@@ -136,7 +144,8 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 1;
-        receipt.addGiftStock(product, quantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addGiftStock(product, quantity, promotion);
 
         // when & then
         assertThat(receipt.calculatePromotionDiscount()).isEqualTo(1000);
@@ -149,8 +158,9 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 4;
         Integer giftQuantity = 1;
-        receipt.addPurchasedStock(product, purchaseQuantity);
-        receipt.addGiftStock(product, giftQuantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addPurchasedStock(product, purchaseQuantity, promotion);
+        receipt.addGiftStock(product, giftQuantity, promotion);
         receipt.applyMembership();
 
         // when & then
@@ -163,8 +173,9 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 4;
         Integer giftQuantity = 1;
-        receipt.addPurchasedStock(product, purchaseQuantity);
-        receipt.addGiftStock(product, giftQuantity);
+        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        receipt.addPurchasedStock(product, purchaseQuantity, promotion);
+        receipt.addGiftStock(product, giftQuantity, promotion);
         receipt.applyMembership();
 
         // when & then

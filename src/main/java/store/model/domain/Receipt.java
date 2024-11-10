@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import store.model.PromotionManager;
+import store.util.CommonValidator;
 
 public class Receipt {
 
-    private final List<Stock> purchasedStocks;
-    private final List<Stock> giftStocks;
+    private final List<InnerReceipt> purchasedStocks;
+    private final List<InnerReceipt> giftStocks;
     private boolean membership;
 
-    private Receipt(List<Stock> purchasedStocks, List<Stock> giftStocks, boolean membership) {
+    private Receipt(List<InnerReceipt> purchasedStocks, List<InnerReceipt> giftStocks, boolean membership) {
         this.purchasedStocks = purchasedStocks;
         this.giftStocks = giftStocks;
         this.membership = membership;
@@ -24,23 +24,24 @@ public class Receipt {
         return new Receipt(new ArrayList<>(), new ArrayList<>(), false);
     }
 
-    public void addPurchasedStock(Product product, Integer quantity) {
-        addStock(purchasedStocks, product, quantity);
+    public void addPurchasedStock(Product product, Integer quantity, Promotion promotion) {
+        addStock(purchasedStocks, product, quantity, promotion);
     }
 
-    public void addGiftStock(Product product, Integer quantity) {
-        addStock(giftStocks, product, quantity);
+    public void addGiftStock(Product product, Integer quantity, Promotion promotion) {
+        addStock(giftStocks, product, quantity, promotion);
     }
 
-    private void addStock(List<Stock> stocks, Product product, Integer quantity) {
-        Optional<Stock> existingStock = findStockByProduct(stocks, product);
+    private void addStock(List<InnerReceipt> stocks, Product product, Integer quantity, Promotion promotion) {
+        Optional<InnerReceipt> existingStock = findStockByProduct(stocks, product);
 
         if (existingStock.isPresent()) {
             existingStock.get().addQuantity(quantity);
             return;
         }
-        Stock stock = Stock.of(product.getName(), product.getPrice(), quantity, product.getPromotionName());
-        stocks.add(stock);
+
+        InnerReceipt innerReceipt = InnerReceipt.of(product, quantity, promotion);
+        stocks.add(innerReceipt);
     }
 
     public void applyMembership() {
@@ -49,7 +50,7 @@ public class Receipt {
 
     public Integer calculateTotalPurchaseQuantity() {
         Integer totalPurchaseQuantity = 0;
-        for (Stock purchasedStock : purchasedStocks) {
+        for (InnerReceipt purchasedStock : purchasedStocks) {
             totalPurchaseQuantity += purchasedStock.getQuantity();
         }
         return totalPurchaseQuantity;
@@ -57,7 +58,7 @@ public class Receipt {
 
     public Integer calculateTotalPurchaseAmount() {
         Integer purchaseAmount = 0;
-        for (Stock purchasedStock : purchasedStocks) {
+        for (InnerReceipt purchasedStock : purchasedStocks) {
             purchaseAmount += purchasedStock.getProductPrice() * purchasedStock.getQuantity();
         }
         return purchaseAmount;
@@ -65,7 +66,7 @@ public class Receipt {
 
     public Integer calculatePromotionDiscount() {
         Integer promotionDiscount = 0;
-        for (Stock giftStock : giftStocks) {
+        for (InnerReceipt giftStock : giftStocks) {
             promotionDiscount += giftStock.getProductPrice() * giftStock.getQuantity();
         }
         return promotionDiscount;
@@ -77,12 +78,10 @@ public class Receipt {
         }
 
         int membershipDiscount = 0;
-        PromotionManager promotionManager = PromotionManager.getInstance();
 
-        for (Stock giftStock : giftStocks) {
-            Promotion promotion = promotionManager.findPromotion(giftStock.getPromotionName()).get();
+        for (InnerReceipt giftStock : giftStocks) {
             membershipDiscount +=
-                    giftStock.getProductPrice() * promotion.getRequiredPlusGiftCount() * giftStock.getQuantity();
+                    giftStock.getProductPrice() * giftStock.getRequiredPlusGiftCount() * giftStock.getQuantity();
         }
         int totalDiscount = (int) ((calculateTotalPurchaseAmount() - membershipDiscount) * MEMBERSHIP_DISCOUNT_RATE);
         return Math.min(totalDiscount, MAX_MEMBERSHIP_DISCOUNT);
@@ -92,8 +91,8 @@ public class Receipt {
         return calculateTotalPurchaseAmount() - calculatePromotionDiscount() - calculateMembershipDiscount();
     }
 
-    private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
-        for (Stock stock : stocks) {
+    private Optional<InnerReceipt> findStockByProduct(List<InnerReceipt> stocks, Product product) {
+        for (InnerReceipt stock : stocks) {
             if (stock.getProductName().equals(product.getName())) {
                 return Optional.of(stock);
             }
@@ -101,11 +100,61 @@ public class Receipt {
         return Optional.empty();
     }
 
-    public List<Stock> getPurchasedStocks() {
+    public List<InnerReceipt> getPurchasedStocks() {
         return Collections.unmodifiableList(purchasedStocks);
     }
 
-    public List<Stock> getGiftStocks() {
+    public List<InnerReceipt> getGiftStocks() {
         return Collections.unmodifiableList(giftStocks);
+    }
+
+    public static class InnerReceipt {
+
+        private Product product;
+        private Integer quantity;
+        private Promotion promotion;
+
+        private InnerReceipt(Product product, Integer quantity, Promotion promotion) {
+            this.product = product;
+            this.quantity = quantity;
+            this.promotion = promotion;
+        }
+
+        public static InnerReceipt of(Product product, Integer quantity, Promotion promotion) {
+            return new InnerReceipt(product, quantity, promotion);
+        }
+
+        public void addQuantity(Integer addQuantity) {
+            CommonValidator.validateNonNegative(addQuantity);
+            this.quantity += addQuantity;
+        }
+
+        public Product getProduct() {
+            return product;
+        }
+
+        public String  getProductName() {
+            return product.getName();
+        }
+
+        public Integer getProductPrice() {
+            return product.getPrice();
+        }
+
+        public Integer getQuantity() {
+            return quantity;
+        }
+
+        public Promotion getPromotion() {
+            return promotion;
+        }
+
+        public String getPromotionName() {
+            return promotion.getName();
+        }
+
+        public Integer getRequiredPlusGiftCount() {
+            return promotion.getRequiredPlusGiftCount();
+        }
     }
 }
