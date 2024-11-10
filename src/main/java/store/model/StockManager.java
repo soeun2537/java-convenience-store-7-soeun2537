@@ -72,4 +72,13 @@ public class StockManager {
     private void reduceSingleStock(List<Stock> stocks, Integer quantity) {
         stocks.get(0).reduceQuantity(quantity);
     }
+
+    public boolean existsPromotionStock(String productName) {
+        for (Stock stock : findPromotionAndGeneralStocks(productName)) {
+            if (!stock.getPromotionName().equals(NO_PROMOTION)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
