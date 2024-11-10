@@ -141,4 +141,19 @@ class ReceiptTest {
         // when & then
         assertThat(receipt.calculatePromotionDiscount()).isEqualTo(1000);
     }
+
+    @Test
+    @DisplayName("멤버십 할인 금액 계산")
+    void calculateMembershipDiscount() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer purchaseQuantity = 4;
+        Integer giftQuantity = 1;
+        receipt.addPurchasedStock(product, purchaseQuantity);
+        receipt.addGiftStock(product, giftQuantity);
+        receipt.applyMembership();
+
+        // when & then
+        assertThat(receipt.calculateMembershipDiscount()).isEqualTo(300);
+    }
 }
