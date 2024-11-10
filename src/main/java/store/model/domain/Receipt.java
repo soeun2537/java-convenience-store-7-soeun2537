@@ -88,6 +88,10 @@ public class Receipt {
         return Math.min(totalDiscount, MAX_MEMBERSHIP_DISCOUNT);
     }
 
+    public Integer calculateFinalAmount() {
+        return calculateTotalPurchaseAmount() - calculatePromotionDiscount() - calculateMembershipDiscount();
+    }
+
     private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
         for (Stock stock : stocks) {
             if (stock.getProductName().equals(product.getName())) {
