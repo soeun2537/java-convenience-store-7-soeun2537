@@ -88,4 +88,29 @@ class PromotionProcessorTest {
         assertThat(statusDto.getQuantity()).isEqualTo(1);
 
     }
+
+    @Test
+    @DisplayName("프로모션 재고 <= 요청 수량: 정가 결제 필요")
+    void handlePromotion_insufficientPromotionStock() {
+        // given
+        Stock promotionStock = stockManager.findPromotionAndGeneralStocks("콜라").getFirst();
+        Integer quantity = 10;
+
+        // when
+        StatusDto statusDto = promotionProcessor.handlePromotion(promotionStock, quantity);
+
+        // then
+        Receipt receipt = receiptManager.get();
+
+        assertThat(promotionStock.getQuantity()).isEqualTo(1);
+        assertThat(receipt.getPurchasedStocks().size()).isEqualTo(1);
+        assertThat(receipt.getPurchasedStocks().getFirst().getProductName()).isEqualTo(promotionStock.getProductName());
+        assertThat(receipt.getPurchasedStocks().getFirst().getQuantity()).isEqualTo(9);
+        assertThat(receipt.getGiftStocks().size()).isEqualTo(1);
+        assertThat(receipt.getGiftStocks().getFirst().getProductName()).isEqualTo(promotionStock.getProductName());
+        assertThat(receipt.getGiftStocks().getFirst().getQuantity()).isEqualTo(3);
+        assertThat(statusDto.getStatus()).isEqualTo(Status.REGULAR_PRICE_PAYMENT);
+        assertThat(statusDto.getProductName()).isEqualTo(promotionStock.getProductName());
+        assertThat(statusDto.getQuantity()).isEqualTo(1);
+    }
 }
