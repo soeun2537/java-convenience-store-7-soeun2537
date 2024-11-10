@@ -156,4 +156,18 @@ class ReceiptTest {
         // when & then
         assertThat(receipt.calculateMembershipDiscount()).isEqualTo(300);
     }
+
+    @Test
+    @DisplayName("최종 결제 금액 계산")
+    void calculateFinalAmount() {
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer purchaseQuantity = 4;
+        Integer giftQuantity = 1;
+        receipt.addPurchasedStock(product, purchaseQuantity);
+        receipt.addGiftStock(product, giftQuantity);
+        receipt.applyMembership();
+
+        // when & then
+        assertThat(receipt.calculateFinalAmount()).isEqualTo(2700);
+    }
 }
