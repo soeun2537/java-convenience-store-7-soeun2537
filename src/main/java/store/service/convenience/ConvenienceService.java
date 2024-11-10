@@ -1,5 +1,7 @@
 package store.service.convenience;
 
+import static store.constant.message.ErrorMessage.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import store.dto.request.input.PurchaseProductsRequest;
@@ -52,6 +54,7 @@ public class ConvenienceService {
     }
 
     private StatusDto purchaseProduct(List<Stock> stocks, Integer quantity) {
+        validateSufficientStocksQuantity(stocks.getFirst().getProductName(), quantity);
         if (stockManager.existsPromotionStock(stocks.getFirst().getProductName())) {
             return promotionProcessor.handlePromotion(stocks.getFirst(), quantity);
         }
@@ -73,6 +76,16 @@ public class ConvenienceService {
 
     public ReceiptResponse createReceiptResponse() {
         Receipt receipt = receiptManager.get();
+        if (receipt == null) {
+            throw new IllegalStateException(NOT_FOUND_RECEIPT.getMessage());
+        }
         return ReceiptResponse.from(receipt);
+    }
+
+    private void validateSufficientStocksQuantity(String productName, Integer quantity) {
+        Integer totalQuantity = stockManager.calculatePromotionAndGeneralStockQuantity(productName);
+        if (totalQuantity < quantity) {
+            throw new IllegalStateException(INSUFFICIENT_STOCK.getMessage());
+        }
     }
 }
