@@ -70,4 +70,9 @@ public class ConvenienceService {
         Receipt receipt = receiptManager.get();
         receipt.applyMembership();
     }
+
+    public ReceiptResponse createReceiptResponse() {
+        Receipt receipt = receiptManager.get();
+        return ReceiptResponse.from(receipt);
+    }
 }
