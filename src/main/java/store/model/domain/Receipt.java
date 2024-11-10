@@ -71,6 +71,23 @@ public class Receipt {
         return promotionDiscount;
     }
 
+    public Integer calculateMembershipDiscount() {
+        if (!membership) {
+            return 0;
+        }
+
+        int membershipDiscount = 0;
+        PromotionManager promotionManager = PromotionManager.getInstance();
+
+        for (Stock giftStock : giftStocks) {
+            Promotion promotion = promotionManager.findPromotion(giftStock.getPromotionName()).get();
+            membershipDiscount +=
+                    giftStock.getProductPrice() * promotion.getRequiredPlusGiftCount() * giftStock.getQuantity();
+        }
+        int totalDiscount = (int) ((calculateTotalPurchaseAmount() - membershipDiscount) * MEMBERSHIP_DISCOUNT_RATE);
+        return Math.min(totalDiscount, MAX_MEMBERSHIP_DISCOUNT);
+    }
+
     private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
         for (Stock stock : stocks) {
             if (stock.getProductName().equals(product.getName())) {
