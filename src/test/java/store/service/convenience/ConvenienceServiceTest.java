@@ -89,4 +89,20 @@ class ConvenienceServiceTest {
         assertThat(statusDto.getProductName()).isEqualTo("콜라");
         assertThat(statusDto.getQuantity()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("상품 구매: REGULAR_PRICE_PAYMENT")
+    void purchaseProducts_regularPricePayment() {
+        // given
+        String input = "[콜라-11]";
+        PurchaseProductsRequest request = PurchaseProductsRequest.from(input);
+
+        // when
+        StatusDto statusDto = convenienceService.purchaseProducts(request).getFirst();
+
+        // then
+        assertThat(statusDto.getStatus()).isEqualTo(Status.REGULAR_PRICE_PAYMENT);
+        assertThat(statusDto.getProductName()).isEqualTo("콜라");
+        assertThat(statusDto.getQuantity()).isEqualTo(2);
+    }
 }
