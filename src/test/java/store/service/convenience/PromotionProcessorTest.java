@@ -113,4 +113,27 @@ class PromotionProcessorTest {
         assertThat(statusDto.getProductName()).isEqualTo(promotionStock.getProductName());
         assertThat(statusDto.getQuantity()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("프로모션 날짜가 지난 경우 일반 결제")
+    void handlePromotion_ExpiredPromotion() {
+        // given
+        Stock promotionStock = stockManager.findPromotionAndGeneralStocks("프로모션기간이지난상품").getFirst();
+        Integer quantity = 5;
+
+        // when
+        StatusDto statusDto = promotionProcessor.handlePromotion(promotionStock, quantity);
+
+        // then
+        Receipt receipt = receiptManager.get();
+
+        assertThat(promotionStock.getQuantity()).isEqualTo(3);
+        assertThat(receipt.getPurchasedStocks().size()).isEqualTo(1);
+        assertThat(receipt.getPurchasedStocks().getFirst().getProductName()).isEqualTo(promotionStock.getProductName());
+        assertThat(receipt.getPurchasedStocks().getFirst().getQuantity()).isEqualTo(5);
+        assertThat(receipt.getGiftStocks()).isEmpty();
+        assertThat(statusDto.getStatus()).isEqualTo(Status.NO_ACTION_REQUIRED);
+        assertThat(statusDto.getProduct()).isNull();
+        assertThat(statusDto.getQuantity()).isEqualTo(0);
+    }
 }
