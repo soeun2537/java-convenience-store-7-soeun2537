@@ -1,9 +1,12 @@
 package store.model.domain;
 
+import static store.constant.ConvenienceConstant.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import store.model.PromotionManager;
 
 public class Receipt {
 
@@ -42,6 +45,14 @@ public class Receipt {
 
     public void applyMembership() {
         membership = true;
+    }
+
+    public Integer calculateTotalPurchaseQuantity() {
+        Integer totalPurchaseQuantity = 0;
+        for (Stock purchasedStock : purchasedStocks) {
+            totalPurchaseQuantity += purchasedStock.getQuantity();
+        }
+        return totalPurchaseQuantity;
     }
 
     private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
