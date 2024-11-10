@@ -129,4 +129,16 @@ class ReceiptTest {
         // when & then
         assertThat(receipt.calculateTotalPurchaseAmount()).isEqualTo(10000);
     }
+
+    @Test
+    @DisplayName("행사 할인 금액 계산")
+    void calculatePromotionDiscount() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 1;
+        receipt.addGiftStock(product, quantity);
+
+        // when & then
+        assertThat(receipt.calculatePromotionDiscount()).isEqualTo(1000);
+    }
 }
