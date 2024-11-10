@@ -19,6 +19,10 @@ public class StatusDto {
         return new StatusDto(Status.ADDING_QUANTITY, product, quantity);
     }
 
+    public static StatusDto setRegularStatusPaymentStatus(Product product, Integer quantity) {
+        return new StatusDto(Status.REGULAR_PRICE_PAYMENT, product, quantity);
+    }
+
     public Status getStatus() {
         return status;
     }
