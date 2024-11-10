@@ -117,4 +117,16 @@ class ReceiptTest {
         // when & then
         assertThat(receipt.calculateTotalPurchaseQuantity()).isEqualTo(10);
     }
+
+    @Test
+    @DisplayName("총 구매액 계산")
+    void calculateTotalPurchaseAmount() {
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 5;
+        receipt.addPurchasedStock(product, quantity);
+        receipt.addPurchasedStock(product, quantity);
+
+        // when & then
+        assertThat(receipt.calculateTotalPurchaseAmount()).isEqualTo(10000);
+    }
 }
