@@ -96,4 +96,21 @@ class StockManagerTest {
         assertThat(productNames).hasSize(2);
         assertThat(productNames).containsOnly(stock1.getProductName(), stock3.getProductName());
     }
+
+    @Test
+    @DisplayName("재고 차감: 프로모션 재고 우선 차감")
+    void reduceStockQuantity() {
+        Stock stock1 = Stock.of("콜라", 1000, 3, "탄산2+1");
+        Stock stock2 = Stock.of("콜라", 1000, 5, "null");
+        stockManager.addStock(stock1);
+        stockManager.addStock(stock2);
+
+        // when
+        stockManager.reduceStockQuantity(stock1.getProduct(), 7);
+
+        // then
+        List<Stock> stocks = stockManager.findPromotionAndGeneralStocks(stock1.getProductName());
+        assertThat(stocks.getFirst().getQuantity()).isEqualTo(0);
+        assertThat(stocks.getLast().getQuantity()).isEqualTo(1);
+    }
 }
