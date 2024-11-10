@@ -81,4 +81,14 @@ public class StockManager {
         }
         return false;
     }
+
+    public List<Stock> findPromotionAndGeneralStocks(String productName) {
+        List<Stock> findStocks = new ArrayList<>();
+        for (Stock stock : stocks) {
+            if (stock.getProductName().equals(productName)) {
+                findStocks.add(stock);
+            }
+        }
+        return findStocks;
+    }
 }
