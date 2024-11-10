@@ -17,9 +17,9 @@ public class Stock {
         return new Stock(product, quantity);
     }
 
-    public void addQuantity(Integer addedQuantity) {
-        CommonValidator.validateNonNegative(addedQuantity);
-        this.quantity += addedQuantity;
+    public void addQuantity(Integer addQuantity) {
+        CommonValidator.validateNonNegative(addQuantity);
+        this.quantity += addQuantity;
     }
 
     public void reduceQuantity(Integer reducedQuantity) {
