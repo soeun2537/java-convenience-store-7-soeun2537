@@ -38,4 +38,20 @@ class ReceiptTest {
         assertThat(newReceipt.getGiftStocks()).isEmpty();
         assertThat(newReceipt.calculateMembershipDiscount()).isEqualTo(0);
     }
+
+    @Test
+    @DisplayName("구매한 상품을 추가")
+    void addPurchasedStock() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 3;
+
+        // when
+        receipt.addPurchasedStock(product, quantity);
+
+        // then
+        Stock purchasedStock = receipt.getPurchasedStocks().getFirst();
+        assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
+        assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
+    }
 }
