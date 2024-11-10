@@ -6,8 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.constant.TestPathConstant;
+import store.dto.server.StatusDto;
 import store.model.PromotionManager;
 import store.model.ReceiptManager;
+import store.model.Status;
 import store.model.StockManager;
 import store.model.domain.Receipt;
 import store.model.domain.Stock;
@@ -44,7 +46,7 @@ class GeneralProcessorTest {
         Integer quantity = 3;
 
         // when
-        generalProcessor.handleGeneral(generalStock, quantity);
+        StatusDto statusDto = generalProcessor.handleGeneral(generalStock, quantity);
 
         // then
         Receipt receipt = receiptManager.get();
@@ -54,5 +56,8 @@ class GeneralProcessorTest {
         assertThat(receipt.getPurchasedStocks().getFirst().getProductName()).isEqualTo(generalStock.getProductName());
         assertThat(receipt.getPurchasedStocks().getFirst().getQuantity()).isEqualTo(3);
         assertThat(receipt.getGiftStocks()).isEmpty();
+        assertThat(statusDto.getStatus()).isEqualTo(Status.NO_ACTION_REQUIRED);
+        assertThat(statusDto.getProduct()).isNull();
+        assertThat(statusDto.getQuantity()).isEqualTo(0);
     }
 }
