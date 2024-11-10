@@ -37,4 +37,11 @@ public class PurchaseTransactionHandler {
         }
         receipt.addGiftStock(product, quantity);
     }
+
+    public void processWithoutGift(Product product, Integer quantity) {
+        Receipt receipt = receiptManager.get();
+
+        stockManager.reduceStockQuantity(product, quantity);
+        receipt.addPurchasedStock(product, quantity);
+    }
 }
