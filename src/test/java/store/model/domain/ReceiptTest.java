@@ -54,4 +54,20 @@ class ReceiptTest {
         assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
         assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
     }
+
+    @Test
+    @DisplayName("증정 상품을 추가")
+    void addGiftStock() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 3;
+
+        // when
+        receipt.addGiftStock(product, quantity);
+
+        // then
+        Stock purchasedStock = receipt.getGiftStocks().getFirst();
+        assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
+        assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
+    }
 }
