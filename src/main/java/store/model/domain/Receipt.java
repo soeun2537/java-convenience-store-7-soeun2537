@@ -63,6 +63,14 @@ public class Receipt {
         return purchaseAmount;
     }
 
+    public Integer calculatePromotionDiscount() {
+        Integer promotionDiscount = 0;
+        for (Stock giftStock : giftStocks) {
+            promotionDiscount += giftStock.getProductPrice() * giftStock.getQuantity();
+        }
+        return promotionDiscount;
+    }
+
     private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
         for (Stock stock : stocks) {
             if (stock.getProductName().equals(product.getName())) {
