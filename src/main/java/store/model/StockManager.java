@@ -1,8 +1,13 @@
 package store.model;
 
+import static store.constant.ConvenienceConstant.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import store.model.domain.Product;
 import store.model.domain.Stock;
 
 public class StockManager {
@@ -31,5 +36,13 @@ public class StockManager {
 
     public void clearStocks() {
         stocks.clear();
+    }
+
+    public Set<String> getProductNames() {
+        Set<String> productNames = new HashSet<>();
+        for (Stock stock : stocks) {
+            productNames.add(stock.getProductName());
+        }
+        return productNames;
     }
 }
