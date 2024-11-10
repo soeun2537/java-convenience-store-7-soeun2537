@@ -104,4 +104,17 @@ class ReceiptTest {
         // then
         assertThat(receipt.calculateMembershipDiscount()).isZero();
     }
+
+    @Test
+    @DisplayName("총 구매 수량 계산")
+    void calculateTotalPurchaseQuantity() {
+        // given
+        Product product = Product.of("콜라", 1000, "탄산2+1");
+        Integer quantity = 5;
+        receipt.addPurchasedStock(product, quantity);
+        receipt.addPurchasedStock(product, quantity);
+
+        // when & then
+        assertThat(receipt.calculateTotalPurchaseQuantity()).isEqualTo(10);
+    }
 }
