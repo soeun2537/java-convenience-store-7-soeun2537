@@ -40,6 +40,10 @@ public class Receipt {
         stocks.add(stock);
     }
 
+    public void applyMembership() {
+        membership = true;
+    }
+
     private Optional<Stock> findStockByProduct(List<Stock> stocks, Product product) {
         for (Stock stock : stocks) {
             if (stock.getProductName().equals(product.getName())) {
