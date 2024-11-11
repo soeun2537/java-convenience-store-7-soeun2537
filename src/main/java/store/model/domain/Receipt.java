@@ -1,6 +1,7 @@
 package store.model.domain;
 
-import static store.constant.ConvenienceConstant.*;
+import static store.constant.ConvenienceConstant.MEMBERSHIP_DISCOUNT_RATE;
+import static store.constant.ConvenienceConstant.MAX_MEMBERSHIP_DISCOUNT;
 
 import java.util.ArrayList;
 import java.util.Collections;

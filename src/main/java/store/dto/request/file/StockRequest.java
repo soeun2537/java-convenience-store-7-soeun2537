@@ -1,6 +1,6 @@
 package store.dto.request.file;
 
-import static store.constant.InputConstant.*;
+import static store.constant.InputConstant.PRODUCT_SEPARATOR;
 
 import java.util.List;
 import store.util.CommonParser;

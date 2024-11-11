@@ -1,6 +1,23 @@
 package store.view;
 
-import static store.constant.message.OutputMessage.*;
+import static store.constant.message.OutputMessage.START_GUIDANCE;
+import static store.constant.message.OutputMessage.EXISTING_STOCKS_GUIDANCE;
+import static store.constant.message.OutputMessage.EXISTING_STOCKS;
+import static store.constant.message.OutputMessage.PURCHASE_PRODUCTS_GUIDANCE;
+import static store.constant.message.OutputMessage.ADDING_QUANTITY_STATUS_GUIDANCE;
+import static store.constant.message.OutputMessage.REGULAR_PRICE_PAYMENT_STATUS_GUIDANCE;
+import static store.constant.message.OutputMessage.MEMBERSHIP_APPLICATION_STATUS_GUIDANCE;
+import static store.constant.message.OutputMessage.ADDITIONAL_PURCHASE_STATUS_GUIDANCE;
+import static store.constant.message.OutputMessage.RECEIPT_TITLE_HEADER;
+import static store.constant.message.OutputMessage.RECEIPT_PURCHASE_PRODUCTS_HEADER;
+import static store.constant.message.OutputMessage.RECEIPT_PURCHASE_PRODUCT_LINE;
+import static store.constant.message.OutputMessage.RECEIPT_GIFTS_HEADER;
+import static store.constant.message.OutputMessage.RECEIPT_GIFT_LINE;
+import static store.constant.message.OutputMessage.RECEIPT_DIVISION_HEADER;
+import static store.constant.message.OutputMessage.RECEIPT_TOTAL_PURCHASE_AMOUNT;
+import static store.constant.message.OutputMessage.RECEIPT_PROMOTION_DISCOUNT;
+import static store.constant.message.OutputMessage.RECEIPT_MEMBERSHIP_DISCOUNT;
+import static store.constant.message.OutputMessage.RECEIPT_FINAL_AMOUNT;
 
 import java.util.List;
 import store.dto.response.ReceiptResponse;

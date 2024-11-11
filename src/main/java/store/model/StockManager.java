@@ -1,6 +1,6 @@
 package store.model;
 
-import static store.constant.ConvenienceConstant.*;
+import static store.constant.ConvenienceConstant.NO_PROMOTION;
 
 import java.util.ArrayList;
 import java.util.Collections;

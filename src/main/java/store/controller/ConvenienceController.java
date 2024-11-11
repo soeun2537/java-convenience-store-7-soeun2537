@@ -1,6 +1,6 @@
 package store.controller;
 
-import static store.constant.ConvenienceConstant.*;
+import static store.constant.ConvenienceConstant.MAX_RETRIES;
 
 import java.util.List;
 import java.util.function.Supplier;

@@ -1,6 +1,7 @@
 package store.controller;
 
-import static store.constant.PathConstant.*;
+import static store.constant.PathConstant.PRODUCT_FILE_PATH;
+import static store.constant.PathConstant.PROMOTION_FILE_PATH;
 
 import store.service.inventory.InventoryService;
 

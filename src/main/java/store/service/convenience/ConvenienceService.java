@@ -1,6 +1,8 @@
 package store.service.convenience;
 
-import static store.constant.message.ErrorMessage.*;
+import static store.constant.message.ErrorMessage.NOT_FOUND_RECEIPT;
+import static store.constant.message.ErrorMessage.INSUFFICIENT_STOCK;
+import static store.constant.message.ErrorMessage.NOT_FOUND_PRODUCT;
 
 import java.util.ArrayList;
 import java.util.List;

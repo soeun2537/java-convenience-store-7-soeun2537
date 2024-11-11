@@ -1,6 +1,6 @@
 package store.dto.request.input;
 
-import static store.constant.InputConstant.*;
+import static store.constant.InputConstant.PRODUCT_SEPARATOR;
 
 import java.util.ArrayList;
 import java.util.List;

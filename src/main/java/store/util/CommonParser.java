@@ -1,6 +1,9 @@
 package store.util;
 
-import static store.constant.InputConstant.*;
+import static store.constant.InputConstant.SQUARE_BRACKETS_PATTERN;
+import static store.constant.InputConstant.EMPTY_STRING;
+import static store.constant.InputConstant.TRUE_STRING;
+import static store.constant.InputConstant.DATE_SEPARATOR;
 
 import java.time.LocalDate;
 import java.util.Arrays;

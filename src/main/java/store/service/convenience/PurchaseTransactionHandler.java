@@ -1,6 +1,6 @@
 package store.service.convenience;
 
-import static store.constant.message.ErrorMessage.*;
+import static store.constant.message.ErrorMessage.NOT_FOUND_PROMOTION;
 
 import store.model.PromotionManager;
 import store.model.StockManager;
