@@ -13,14 +13,16 @@ public class Application {
         PromotionManager promotionManager = PromotionManager.getInstance();
         StockManager stockManager = StockManager.getInstance();
         ReceiptManager receiptManager = new ReceiptManager();
-
         stockManager.clearStocks();
+
         InventoryService inventoryService = new InventoryService(promotionManager, stockManager);
         ConvenienceService convenienceService = new ConvenienceService(promotionManager, stockManager, receiptManager);
-
         InventoryController inventoryController = new InventoryController(inventoryService);
         ConvenienceController convenienceController = new ConvenienceController(convenienceService);
+        start(inventoryController, convenienceController);
+    }
 
+    private static void start(InventoryController inventoryController, ConvenienceController convenienceController) {
         inventoryController.setup();
         convenienceController.run();
     }

@@ -4,7 +4,6 @@ import static store.constant.message.ErrorMessage.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import store.dto.request.input.PurchaseProductsRequest;
 import store.dto.request.input.PurchaseProductsRequest.InnerPurchaseProductRequest;
 import store.dto.response.ReceiptResponse;
@@ -12,7 +11,6 @@ import store.dto.response.StocksResponse;
 import store.dto.server.StatusDto;
 import store.model.PromotionManager;
 import store.model.StockManager;
-import store.model.domain.Product;
 import store.model.domain.Stock;
 import store.model.domain.Receipt;
 import store.model.ReceiptManager;

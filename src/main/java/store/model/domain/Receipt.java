@@ -73,16 +73,14 @@ public class Receipt {
     }
 
     public Integer calculateMembershipDiscount() {
-        if (!membership) {
-            return 0;
-        }
+        if (!membership) return 0;
 
         int membershipDiscount = 0;
-
         for (InnerReceipt giftStock : giftStocks) {
             membershipDiscount +=
                     giftStock.getProductPrice() * giftStock.getRequiredPlusGiftCount() * giftStock.getQuantity();
         }
+
         int totalDiscount = (int) ((calculateTotalPurchaseAmount() - membershipDiscount) * MEMBERSHIP_DISCOUNT_RATE);
         return Math.min(totalDiscount, MAX_MEMBERSHIP_DISCOUNT);
     }

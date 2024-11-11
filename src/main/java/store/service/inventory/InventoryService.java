@@ -63,17 +63,20 @@ public class InventoryService {
     }
 
     private void addMissingGeneralStock() {
-        List<Stock> addToStocks = new ArrayList<>();
-        for (Stock stock : stockManager.getStocks()) {
-            List<Stock> findStocks = stockManager.findPromotionAndGeneralStocks(stock.getProductName());
-            if (stockManager.existsPromotionStock(stock.getProductName()) && findStocks.size() == 1) {
-                Stock promotionStock = findStocks.getFirst();
-                Stock generalStock = Stock.of(
-                        promotionStock.getProductName(), promotionStock.getProductPrice(), 0, NO_PROMOTION);
-                addToStocks.add(generalStock);
+        List<Stock> missingStocks = new ArrayList<>();
+        for (Stock existingStock : stockManager.getStocks()) {
+            List<Stock> findStocks = stockManager.findPromotionAndGeneralStocks(existingStock.getProductName());
+            if (stockManager.existsPromotionStock(existingStock.getProductName()) && findStocks.size() == 1) {
+                Stock stock = findStocks.getFirst();
+                Stock missingStock = Stock.of(stock.getProductName(), stock.getProductPrice(), 0, NO_PROMOTION);
+                missingStocks.add(missingStock);
             }
         }
-        for (Stock stock : addToStocks) {
+        addStocksToManager(missingStocks);
+    }
+
+    private void addStocksToManager(List<Stock> stocks) {
+        for (Stock stock : stocks) {
             stockManager.addStock(stock);
         }
     }

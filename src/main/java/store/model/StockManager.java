@@ -60,7 +60,6 @@ public class StockManager {
         Stock promotionStock = stocks.get(0);
         Stock generalStock = stocks.get(1);
         Integer promotionQuantity = promotionStock.getQuantity();
-
         if (promotionQuantity >= quantity) {
             promotionStock.reduceQuantity(quantity);
             return;

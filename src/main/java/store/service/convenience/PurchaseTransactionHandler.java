@@ -28,7 +28,6 @@ public class PurchaseTransactionHandler {
         Receipt receipt = receiptManager.get();
         Promotion promotion = promotionManager.findPromotion(product.getPromotionName())
                 .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_PROMOTION.getMessage()));
-
         stockManager.reduceStockQuantity(product, quantity);
         receipt.addPurchasedStock(product, quantity, promotion);
         if (calculateGift) {
@@ -40,7 +39,6 @@ public class PurchaseTransactionHandler {
 
     public void processWithoutGift(Product product, Integer quantity) {
         Receipt receipt = receiptManager.get();
-
         stockManager.reduceStockQuantity(product, quantity);
         receipt.addPurchasedStock(product, quantity, null);
     }
