@@ -18,9 +18,9 @@ class ReceiptTest {
 
     @BeforeEach
     void beforeEach() {
+        promotionManager = PromotionManager.getInstance();
         StockManager stockManager = StockManager.getInstance();
         stockManager.clearStocks();
-        promotionManager = PromotionManager.getInstance();
 
         InventoryService inventoryService = new InventoryService(promotionManager, stockManager);
         inventoryService.setupPromotions(TestPathConstant.PROMOTION_FILE_PATH.getPath());
@@ -55,7 +55,7 @@ class ReceiptTest {
         // then
         InnerReceipt purchasedStock = receipt.getPurchasedStocks().getFirst();
         assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
-        assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
+        assertThat(purchasedStock.getQuantity()).isEqualTo(3);
     }
 
     @Test
@@ -64,7 +64,7 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 3;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
 
         // when
         receipt.addGiftStock(product, quantity, promotion);
@@ -72,7 +72,7 @@ class ReceiptTest {
         // then
         InnerReceipt purchasedStock = receipt.getGiftStocks().getFirst();
         assertThat(purchasedStock.getProductName()).isEqualTo("콜라");
-        assertThat(purchasedStock.getQuantity()).isEqualTo(quantity);
+        assertThat(purchasedStock.getQuantity()).isEqualTo(3);
     }
 
     @Test
@@ -82,7 +82,7 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 5;
         Integer giftQuantity = 1;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addPurchasedStock(product, purchaseQuantity, promotion);
         receipt.addGiftStock(product, giftQuantity, promotion);
 
@@ -100,7 +100,7 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 5;
         Integer giftQuantity = 1;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addPurchasedStock(product, purchaseQuantity, promotion);
         receipt.addGiftStock(product, giftQuantity, promotion);
 
@@ -117,7 +117,7 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 5;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addPurchasedStock(product, quantity, promotion);
         receipt.addPurchasedStock(product, quantity, promotion);
 
@@ -130,7 +130,7 @@ class ReceiptTest {
     void calculateTotalPurchaseAmount() {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 5;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addPurchasedStock(product, quantity, promotion);
         receipt.addPurchasedStock(product, quantity, promotion);
 
@@ -144,7 +144,7 @@ class ReceiptTest {
         // given
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer quantity = 1;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addGiftStock(product, quantity, promotion);
 
         // when & then
@@ -158,7 +158,7 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 4;
         Integer giftQuantity = 1;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addPurchasedStock(product, purchaseQuantity, promotion);
         receipt.addGiftStock(product, giftQuantity, promotion);
         receipt.applyMembership();
@@ -173,7 +173,7 @@ class ReceiptTest {
         Product product = Product.of("콜라", 1000, "탄산2+1");
         Integer purchaseQuantity = 4;
         Integer giftQuantity = 1;
-        Promotion promotion = promotionManager.findPromotion("탄산2+1").get();
+        Promotion promotion = promotionManager.findPromotion(product.getPromotionName()).get();
         receipt.addPurchasedStock(product, purchaseQuantity, promotion);
         receipt.addGiftStock(product, giftQuantity, promotion);
         receipt.applyMembership();

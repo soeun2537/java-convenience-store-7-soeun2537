@@ -19,17 +19,15 @@ class PromotionProcessorTest {
 
     private PromotionProcessor promotionProcessor;
     private StockManager stockManager;
-    private PromotionManager promotionManager;
     private ReceiptManager receiptManager;
-    private PurchaseTransactionHandler transactionHandler;
 
     @BeforeEach
     void beforeEach() {
+        PromotionManager promotionManager = PromotionManager.getInstance();
         stockManager = StockManager.getInstance();
-        promotionManager = PromotionManager.getInstance();
         receiptManager = new ReceiptManager();
-        transactionHandler = new PurchaseTransactionHandler(stockManager, promotionManager, receiptManager);
-        promotionProcessor = new PromotionProcessor(transactionHandler, promotionManager);
+        promotionProcessor = new PromotionProcessor(
+                new PurchaseTransactionHandler(stockManager, promotionManager, receiptManager), promotionManager);
 
         stockManager.clearStocks();
         receiptManager.createReceipt();

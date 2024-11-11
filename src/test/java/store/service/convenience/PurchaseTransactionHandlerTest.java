@@ -17,14 +17,13 @@ import store.service.inventory.InventoryService;
 class PurchaseTransactionHandlerTest {
 
     private StockManager stockManager;
-    private PromotionManager promotionManager;
     private ReceiptManager receiptManager;
     private PurchaseTransactionHandler transactionHandler;
 
     @BeforeEach
     void beforeEach() {
+        PromotionManager promotionManager = PromotionManager.getInstance();
         stockManager = StockManager.getInstance();
-        promotionManager = PromotionManager.getInstance();
         receiptManager = new ReceiptManager();
         transactionHandler = new PurchaseTransactionHandler(stockManager, promotionManager, receiptManager);
 
