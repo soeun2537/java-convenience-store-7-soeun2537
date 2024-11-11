@@ -13,8 +13,8 @@ public class PromotionRequest {
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    private PromotionRequest(String name,Integer requiredCount, Integer giftCount,
-                            LocalDate startDate, LocalDate endDate) {
+    private PromotionRequest(String name, Integer requiredCount, Integer giftCount,
+                             LocalDate startDate, LocalDate endDate) {
         this.name = name;
         this.requiredCount = requiredCount;
         this.giftCount = giftCount;

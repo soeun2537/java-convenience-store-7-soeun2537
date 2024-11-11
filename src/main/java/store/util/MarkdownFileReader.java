@@ -32,7 +32,7 @@ public class MarkdownFileReader {
 
     private static List<String> readLines(BufferedReader reader) throws IOException {
         List<String> lines = new ArrayList<>();
-        reader.readLine(); // 헤더 스킵
+        reader.readLine();
 
         String line;
         while ((line = reader.readLine()) != null) {

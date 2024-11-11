@@ -1,13 +1,9 @@
 package store.dto.request.input;
 
 import static org.assertj.core.api.Assertions.*;
-import static store.constant.message.ErrorMessage.*;
-import static store.constant.message.ErrorMessage.NOT_FOUND_PRODUCT;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.model.StockManager;
-import store.model.domain.Stock;
 
 class PurchaseProductsRequestTest {
 

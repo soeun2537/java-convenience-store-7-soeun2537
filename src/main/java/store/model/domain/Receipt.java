@@ -133,7 +133,7 @@ public class Receipt {
             return product;
         }
 
-        public String  getProductName() {
+        public String getProductName() {
             return product.getName();
         }
 
