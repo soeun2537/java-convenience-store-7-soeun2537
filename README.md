@@ -109,7 +109,7 @@ IllegalArgumentException을 발생시키고, "\[ERROR]"로 시작하는 오류 �
 
 ## 📌 최종 기능 명세
 
-### Controller
+### controller
 
 | Class                  | Method | Input | Output | Description      |
 |------------------------|--------|-------|--------|------------------|
