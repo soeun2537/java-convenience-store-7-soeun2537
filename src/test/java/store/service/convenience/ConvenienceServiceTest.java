@@ -1,6 +1,7 @@
 package store.service.convenience;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static store.constant.message.ErrorMessage.INSUFFICIENT_STOCK;
 import static store.constant.message.ErrorMessage.NOT_FOUND_PRODUCT;
 
