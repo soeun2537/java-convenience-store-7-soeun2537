@@ -109,8 +109,106 @@ IllegalArgumentException을 발생시키고, "\[ERROR]"로 시작하는 오류 �
 
 ## 📌 최종 기능 명세
 
-| Package | Class | Method | Input | Output | Description |
-|---------|-------|--------|-------|--------|-------------|
+### Controller
+
+| Class                  | Method | Input | Output | Description      |
+|------------------------|--------|-------|--------|------------------|
+| ConvenienceController	 | run	   | 	     | 	      | 편의점의 주요 프로세스를 실행 |
+| InventoryController    | setup  |       |        | 상품 및 프로모션을 설정    |
+
+### model.domain
+
+| Class     | Method                           | Input                       | Output  | Description           |
+|-----------|----------------------------------|-----------------------------|---------|-----------------------|
+| Product   | of                               |                             |         | 새로운 상품 인스턴스 생성        |
+| Promotion | of                               |                             |         | 새로운 프로모션 인스턴스 생성      |
+| Stock     | of                               |                             |         | 새로운 재고 인스턴스 생성        |
+|           | addQuantity                      |                             |         | 재고의 수량 추가             |
+|           | reduceQuantity                   |                             |         | 재고의 수량 차감             |
+| Receipt   | createAndInitialize              |                             |         | 새로운 영수증 인스턴스 생성 및 초기화 |
+|           | addPurchasedStock                | Product, Integer, Promotion |         | 구매한 상품을 영수증에 추가       |
+|           | addGiftStock                     | Product, Integer, Promotion |         | 증정 상품을 영수증에 추가        |
+|           | applyMembership	                 |                             |         | 멤버십 할인 적용 설정          |
+|           | calculateTotalPurchaseQuantity		 |                             | Integer | 구매한 상품의 총 수량을 계산      |
+|           | calculateTotalPurchaseAmount		   |                             | Integer | 구매한 상품의 총 금액을 계산      |
+|           | calculatePromotionDiscount		     |                             | Integer | 프로모션 할인 금액 계산         |
+|           | calculateMembershipDiscount		    |                             | Integer | 멤버십 할인 금액 계산          |
+|           | calculateFinalAmount		           |                             | Integer | 최종 결제 금액 계산           |
+
+### model
+
+| Class            | Method                                    | Input            | Output                | Description               |
+|------------------|-------------------------------------------|------------------|-----------------------|---------------------------|
+| PromotionManager | getInstance                               | 	                | PromotionManager      | 싱글톤 인스턴스 반환               |
+|                  | addPromotion                              | Promotion	       |                       | 프로모션을 관리 목록에 추가           |
+|                  | findPromotion                             | String           | Optional\<Promotion>	 | 프로모션 이름을 통해 해당 프로모션 조회    |
+|                  | validateWithinPeriod	                     | Promotion        | boolean               | 지정된 프로모션이 유효 기간 내에 있는지 확인 |
+| StockManager     | getInstance                               |                  | StockManager          | 싱글톤 인스턴스 반환               |
+|                  | addStock                                  | Stock            |                       | 재고를 관리 목록에 추가             |
+|                  | clearStocks                               |                  |                       | 관리 목록 초기화                 |
+|                  | getProductNames                           |                  | Set\<String>          | 중복되지 않는 상품 이름 반환          |
+|                  | reduceStockQuantity                       | Product, Integer |                       | 재고 차감(프로모션 재고 우선 차감)      |
+|                  | existsPromotionStock                      | String           | boolean               | 프로모션 재고 존재 여부 반환          |
+|                  | findPromotionAndGeneralStocks             | String           | List\<Stock>          | 상품 이름으로 존재하는 모든 재고 반환     |
+|                  | calculatePromotionAndGeneralStockQuantity | String           | Integer               | 상품 이름으로 존재한 모든 재고 수량 합 반환 |
+| ReceiptManager   | createReceipt                             |                  |                       | 영수증 생성                    |
+|                  | get                                       |                  | Receipt               | 생성된 영수증 인스턴스 반환           |
+| Status           | 		                                        |                  |                       | 결제 상태 표현                  |
+
+### service
+
+| Class                      | Method                     | Input                     | Output           | Description        |
+|----------------------------|----------------------------|---------------------------|------------------|--------------------|
+| ConvenienceService         | createStocksResponse	      | 	                         | StocksResponse	  | 현재 재고 응답 생성        |
+|                            | createReceipt              | 	                         | 	                | 	새로운 영수증 생성        |
+|                            | purchaseProducts	          | PurchaseProductsRequest   | List\<StatusDto> | 	상품 구매를 처리하고 상태 반환 |
+|                            | applyAddingQuantity        | 	StatusDto                | 		               | 추가 수량 결제 적용        |
+|                            | applyRegularPricePayment   | 	StatusDto                | 		               | 정가 결제 적용           |
+|                            | applyMembership            | 		                        |                  | 멤버십 할인 적용          |
+|                            | createReceiptResponse      | 		                        | ReceiptResponse  | 영수증 응답을 생성         |
+| PromotionProcessor         | handlePromotion            | Stock, Integer            | StatusDto        |                    |
+|                            | processAddingQuantity      | StatusDto                 |                  | 추가 수량 결제 처리        |
+|                            | processRegularPricePayment | StatusDto                 |                  | 정가 결제 처리           |
+| GeneralProcessor           | handleGeneral              | Stock, Integer            | StatusDto        | 일반 상품 구매 처리        |
+| PurchaseTransactionHandler | processWithGift            | Product, Integer, boolean |                  | 증정 상품 있는 결제 처리     |
+|                            | processWithoutGift         | Product, Integer          |                  | 증정 상품 없는 결제 처리     |
+
+### util
+
+| Class              | Method                 | Input          | Output           | Description              |
+|--------------------|------------------------|----------------|------------------|--------------------------|
+| CommonValidator    | validateNotNull        | String         |                  | 문자열이 null이 아닌지 검증        |
+|                    | validateNumeric        | String         |                  | 문자열이 숫자 형식인지 검증          |
+|                    | validateYesOrNo        | String         |                  | 문자열이 Y,y,N,n 형식인지 검증     |
+|                    | validateDate           | String         |                  | 문자열이 날짜 형식인지 검증          |
+|                    | validateNonNegative    | String         |                  | 문자열이 음수가 아닌지 검증          |
+| CommonParser       | replaceSquareBrackets  | String         | String           | 대괄호를 제거                  |
+|                    | separateBySeparator    | String, String | List\<String>    | 구분자로 문자열 분리              |
+|                    | convertStringToInteger | String         | Integer          | 문자열을 정수로 변환              |
+|                    | parseBoolean           | String         | boolean          | 문자열을 boolean으로 변환        |
+|                    | parseDate              | String         | LocalDate        | 문자열을 날짜 형식으로 변환          |
+| MarkDownFileReader | readFile               | String         | List\<String>    | MarkDown 파일을 line 단위로 추출 |
+| MarkDownFileParser | readPromotionFile      | String         | PromotionRequest | 프로모션 파일을 line 단위로 추출     |
+|                    | readStockFile          | String         | StockRequest     | 상품 파일을 line 단위로 추출       |
+
+### view
+
+| Class      | Method                                   | Input            | Output                             | Description         |
+|------------|------------------------------------------|------------------|------------------------------------|---------------------|
+| InputView  | readPurchaseProducts                     |                  | PurchaseProductsRequest            | 구매할 상품 입력           |
+|            | readAddingQuantityStatus                 |                  | AddingQuantityStatusRequest        | 추가 수량 여부 입력         |
+|            | readRegularPricePaymentStatus            |                  | RegularPricePaymentStatusRequest   | 정가 결제 여부 입력         |
+|            | readMembershipApplicationStatus          |                  | MembershipApplicationStatusRequest | 멤버십 적용 여부 입력        |
+|            | readAdditionalPurchaseStatus             |                  | AdditionalPurchaseStatusRequest    | 추가 결제 여부 입력         |
+| OutputView | printStartGuidance                       |                  |                                    | 시작 안내 메시지 출력        |
+|            | printStocks                              | StocksResponse   |                                    | 현재 재고 출력            |
+|            | printPurchaseProductsGuidance            |                  |                                    | 구매할 상품 안내 메시지 출력    |
+|            | printAddingQuantityStatusGuidance        | String, Integer  |                                    | 추가 수량 여부 안내 메시지 출력  |
+|            | printRegularPricePaymentStatusGuidance   | String, Integer  |                                    | 정 결제 여부 안내 메시지 출력   |
+|            | printMembershipApplicationStatusGuidance |                  |                                    | 멤버십 적용 여부 안내 메시지 출력 |
+|            | printAdditionalPurchaseStatusGuidance    |                  |                                    | 추가 결제 여부 안내 메시지 출력  |
+|            | printReceipt                             | ReceiptResponse  |                                    | 영수증 출력              |
+|            | printErrorMessage                        | RuntimeException |                                    | 에러 메시지 출력           |
 
 <br>
 
